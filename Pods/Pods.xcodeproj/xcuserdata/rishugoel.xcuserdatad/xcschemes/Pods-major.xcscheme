@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0730"
+   LastUpgradeVersion = "0700"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3EB076601D5EFA7600FF95CC"
-               BuildableName = "major.app"
-               BlueprintName = "major"
-               ReferencedContainer = "container:major.xcodeproj">
+               BlueprintIdentifier = "D4031D4BE80BBF608FC06B387F7CB411"
+               BuildableName = "Pods_major.framework"
+               BlueprintName = "Pods-major"
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,26 +28,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3ECC03D91D638D560041B141"
-               BuildableName = "majorTests.xctest"
-               BlueprintName = "majorTests"
-               ReferencedContainer = "container:major.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3EB076601D5EFA7600FF95CC"
-            BuildableName = "major.app"
-            BlueprintName = "major"
-            ReferencedContainer = "container:major.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -61,16 +42,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3EB076601D5EFA7600FF95CC"
-            BuildableName = "major.app"
-            BlueprintName = "major"
-            ReferencedContainer = "container:major.xcodeproj">
+            BlueprintIdentifier = "D4031D4BE80BBF608FC06B387F7CB411"
+            BuildableName = "Pods_major.framework"
+            BlueprintName = "Pods-major"
+            ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -80,16 +60,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3EB076601D5EFA7600FF95CC"
-            BuildableName = "major.app"
-            BlueprintName = "major"
-            ReferencedContainer = "container:major.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

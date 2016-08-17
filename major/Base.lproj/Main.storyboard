@@ -35,13 +35,13 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NGJ-5O-trz">
                                 <rect key="frame" x="261" y="139" width="79" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XSp-GT-pI1">
                                 <rect key="frame" x="261" y="234" width="74" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRp-Wx-gwv">
@@ -91,34 +91,32 @@
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WK9-jB-9CL" id="fuX-BG-az0">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="08t-fy-i2q">
-                                            <rect key="frame" x="562" y="6" width="30" height="30"/>
-                                            <state key="normal" title="Fav"/>
-                                            <connections>
-                                                <action selector="makeFavourite:" destination="WK9-jB-9CL" eventType="touchUpInside" id="DeM-2L-GMJ"/>
-                                            </connections>
-                                        </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name of repository" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EBl-oO-Ys0">
                                             <rect key="frame" x="8" y="11" width="195" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="195" id="pTP-zZ-WwF"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5P6-KY-pB6">
+                                            <rect key="frame" x="554" y="7" width="30" height="30"/>
+                                            <state key="normal" title="star"/>
+                                        </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="08t-fy-i2q" firstAttribute="centerY" secondItem="fuX-BG-az0" secondAttribute="centerY" id="RnI-9Z-1mI"/>
+                                        <constraint firstItem="5P6-KY-pB6" firstAttribute="trailing" secondItem="fuX-BG-az0" secondAttribute="trailingMargin" id="4jN-7R-lMe"/>
+                                        <constraint firstItem="5P6-KY-pB6" firstAttribute="baseline" secondItem="EBl-oO-Ys0" secondAttribute="baseline" id="RIr-Gh-ay4"/>
                                         <constraint firstItem="EBl-oO-Ys0" firstAttribute="leading" secondItem="fuX-BG-az0" secondAttribute="leadingMargin" id="Yne-bx-iA9"/>
-                                        <constraint firstItem="EBl-oO-Ys0" firstAttribute="centerY" secondItem="08t-fy-i2q" secondAttribute="centerY" id="hux-v6-toe"/>
-                                        <constraint firstItem="08t-fy-i2q" firstAttribute="trailing" secondItem="fuX-BG-az0" secondAttribute="trailingMargin" id="qfz-vi-Q4S"/>
+                                        <constraint firstItem="5P6-KY-pB6" firstAttribute="centerY" secondItem="fuX-BG-az0" secondAttribute="centerY" id="tAk-co-6Vj"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="favButton" destination="5P6-KY-pB6" id="dlK-Dy-rWR"/>
                                     <outlet property="repositoryName" destination="EBl-oO-Ys0" id="foh-Vh-sNA"/>
                                     <segue destination="Yi1-Dq-5aC" kind="show" identifier="contributorSegue" id="cfc-8X-l5V"/>
                                 </connections>
@@ -160,7 +158,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repository Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sp3-Wo-sgl">
                                             <rect key="frame" x="8" y="11" width="132" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -209,7 +207,7 @@
                                             <attributedString key="attributedText">
                                                 <fragment content="delete">
                                                     <attributes>
-                                                        <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <font key="NSFont" size="9" name="HelveticaNeue"/>
                                                     </attributes>
                                                 </fragment>
@@ -224,7 +222,7 @@
                                             <attributedString key="attributedText">
                                                 <fragment content="add">
                                                     <attributes>
-                                                        <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <font key="NSFont" size="7" name="HelveticaNeue"/>
                                                     </attributes>
                                                 </fragment>
@@ -237,7 +235,7 @@
                                                 <constraint firstAttribute="width" constant="138" id="0rV-Ca-C81"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -309,6 +307,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="6fc-Q4-aKL"/>
+        <segue reference="cfc-8X-l5V"/>
     </inferredMetricsTieBreakers>
 </document>

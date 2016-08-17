@@ -10,8 +10,9 @@ import UIKit
 
 class repositoryCells: UITableViewCell {
     
+    @IBOutlet weak var favButton: UIButton!
     @IBOutlet weak var repositoryName: UILabel!
-
-    @IBAction func makeFavourite(sender: AnyObject) {
-    }
+    
+    
+    
 }

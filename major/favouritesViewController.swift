@@ -7,25 +7,51 @@
 //
 
 import UIKit
-
+import CoreData
 class favouritesViewController: UITableViewController {
-    struct MyData {
-        var repositoryNameLabel:String
-    }
     
-    var tableData: [MyData] = []
+    var repositories = [NSManagedObject] ()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Fetch Data using Api call for repos
-        tableData = [
-            MyData(repositoryNameLabel: "The first row"),
-            MyData(repositoryNameLabel: "The second row"),
-            MyData(repositoryNameLabel: "Third and final row")
-        ]
         
+        displayData()
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    
+    
+    
+    func displayData(){
+        dispatch_async(dispatch_get_main_queue(), {
+            let appDelegate =
+                UIApplication.sharedApplication().delegate as! AppDelegate
+            
+            let managedContext = appDelegate.managedObjectContext
+            
+            //2
+            let fetchRequest = NSFetchRequest(entityName: "Repositories")
+            fetchRequest.predicate = NSPredicate(format: "isFavourite == %@", true)
+            //3
+            do {
+                let results =
+                    try managedContext.executeFetchRequest(fetchRequest)
+                self.repositories = results as! [NSManagedObject]
+                self.tableView.reloadData()
+            } catch let error as NSError {
+                print("Could not fetch \(error), \(error.userInfo)")
+            }
+            
+            
+        })
+    }
+
+    
+    
+    
+    
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -33,7 +59,7 @@ class favouritesViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableData.count
+        return repositories.count
         
     }
     
@@ -43,11 +69,20 @@ class favouritesViewController: UITableViewController {
         dispatch_async(dispatch_get_main_queue(), {
             
             
-            cell.favouriteRepoName.text = self.tableData[indexPath.row].repositoryNameLabel
+            cell.favouriteRepoName.text = self.repositories[indexPath.row].valueForKey("repositoryName") as? String
             
         })
         // Return our new cell for display
         return cell
 
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if  segue.identifier == "favContributorSegue"
+        {
+            let destination = segue.destinationViewController as? ContributorViewController,
+            repositoryIndex = tableView.indexPathForSelectedRow?.row
+            destination!.repository  = (self.repositories[repositoryIndex!].valueForKey("repositoryName") as? String)!
+        }
     }
 }
