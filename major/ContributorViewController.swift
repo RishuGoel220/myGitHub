@@ -20,6 +20,7 @@ class ContributorViewController: UITableViewController {
         super.viewDidLoad()
         
         if Reachability.isConnectedToNetwork() == true {
+            displayData()
             getContributors()
         } else {
             displayData()

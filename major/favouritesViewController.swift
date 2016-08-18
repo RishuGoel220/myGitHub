@@ -32,7 +32,7 @@ class favouritesViewController: UITableViewController {
             
             //2
             let fetchRequest = NSFetchRequest(entityName: "Repositories")
-            fetchRequest.predicate = NSPredicate(format: "isFavourite == %@", true)
+            fetchRequest.predicate = NSPredicate(format: "isFavourite == %@", "true")
             //3
             do {
                 let results =

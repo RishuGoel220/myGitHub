@@ -45,8 +45,8 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRp-Wx-gwv">
-                                <rect key="frame" x="277" y="327" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                                <rect key="frame" x="281" y="327" width="38" height="30"/>
+                                <state key="normal" title="Login"/>
                                 <connections>
                                     <action selector="loginButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="waa-Xh-v59"/>
                                     <action selector="paste:" destination="dkx-z0-nzr" eventType="touchUpInside" id="w1W-y6-gp4"/>
@@ -81,38 +81,50 @@
         <!--Repositories-->
         <scene sceneID="XBV-3d-2vM">
             <objects>
-                <tableViewController id="6Tq-tf-aew" customClass="RepositoryViewController" customModule="major" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" pagingEnabled="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="h0c-0Y-YuN">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                <tableViewController autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="6Tq-tf-aew" customClass="RepositoryViewController" customModule="major" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="h0c-0Y-YuN">
+                        <rect key="frame" x="0.0" y="64" width="600" height="492"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellPrototype" id="WK9-jB-9CL" customClass="repositoryCells" customModule="major" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WK9-jB-9CL" id="fuX-BG-az0">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name of repository" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EBl-oO-Ys0">
                                             <rect key="frame" x="8" y="11" width="195" height="21"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="195" id="pTP-zZ-WwF"/>
+                                                <constraint firstAttribute="width" constant="195" id="dgk-IP-U0g"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5P6-KY-pB6">
-                                            <rect key="frame" x="554" y="7" width="30" height="30"/>
-                                            <state key="normal" title="star"/>
+                                        <button autoresizesSubviews="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5P6-KY-pB6">
+                                            <rect key="frame" x="561" y="5" width="31" height="34"/>
+                                            <accessibility key="accessibilityConfiguration">
+                                                <accessibilityTraits key="traits" button="YES" image="YES"/>
+                                            </accessibility>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="31" id="dmb-j6-e7S"/>
+                                            </constraints>
+                                            <state key="normal" image="unfilledstar.png"/>
+                                            <state key="selected" image="star.png"/>
+                                            <state key="focused" image="star.png" backgroundImage="star.png"/>
+                                            <connections>
+                                                <action selector="favButtonClicked:" destination="6Tq-tf-aew" eventType="touchUpInside" id="DTd-Ca-qRo"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="5P6-KY-pB6" firstAttribute="trailing" secondItem="fuX-BG-az0" secondAttribute="trailingMargin" id="4jN-7R-lMe"/>
-                                        <constraint firstItem="5P6-KY-pB6" firstAttribute="baseline" secondItem="EBl-oO-Ys0" secondAttribute="baseline" id="RIr-Gh-ay4"/>
-                                        <constraint firstItem="EBl-oO-Ys0" firstAttribute="leading" secondItem="fuX-BG-az0" secondAttribute="leadingMargin" id="Yne-bx-iA9"/>
-                                        <constraint firstItem="5P6-KY-pB6" firstAttribute="centerY" secondItem="fuX-BG-az0" secondAttribute="centerY" id="tAk-co-6Vj"/>
+                                        <constraint firstItem="EBl-oO-Ys0" firstAttribute="centerY" secondItem="5P6-KY-pB6" secondAttribute="centerY" id="D8f-fZ-8IS"/>
+                                        <constraint firstItem="5P6-KY-pB6" firstAttribute="trailing" secondItem="fuX-BG-az0" secondAttribute="trailingMargin" id="GQD-Ry-ol3"/>
+                                        <constraint firstItem="EBl-oO-Ys0" firstAttribute="centerY" secondItem="fuX-BG-az0" secondAttribute="centerY" id="XZ3-xh-j2q"/>
+                                        <constraint firstItem="5P6-KY-pB6" firstAttribute="top" secondItem="fuX-BG-az0" secondAttribute="topMargin" constant="-3" id="bmY-UV-5bt"/>
+                                        <constraint firstItem="EBl-oO-Ys0" firstAttribute="leading" secondItem="fuX-BG-az0" secondAttribute="leadingMargin" id="nvo-Oe-CrE"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -127,17 +139,25 @@
                             <outlet property="delegate" destination="6Tq-tf-aew" id="A1t-Pa-GFG"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Repositories" id="rZ1-5A-hMh">
-                        <barButtonItem key="leftBarButtonItem" title="My Favourites" width="8" style="plain" id="rRQ-uF-EBp">
+                        <barButtonItem key="leftBarButtonItem" image="tabbutton.png" id="rRQ-uF-EBp">
                             <connections>
                                 <segue destination="VYb-bQ-Uau" kind="show" identifier="favouriteSegue" id="dlL-ZJ-VA1"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Logout" style="done" id="Rxu-O5-rce">
+                            <connections>
+                                <segue destination="BYZ-38-t0r" kind="presentation" id="yzP-Qc-le2"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g8D-7z-fOG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-218" y="-1009"/>
+            <point key="canvasLocation" x="-312" y="-1048"/>
         </scene>
         <!--My Favourites-->
         <scene sceneID="1ib-tr-oPY">
@@ -306,6 +326,11 @@
             <point key="canvasLocation" x="-1030" y="-1009"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="star.png" width="16" height="16"/>
+        <image name="tabbutton.png" width="29" height="29"/>
+        <image name="unfilledstar.png" width="43" height="43"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="cfc-8X-l5V"/>
     </inferredMetricsTieBreakers>

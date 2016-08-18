@@ -16,7 +16,6 @@ class RepositoryViewController: UITableViewController {
     var repositories = [NSManagedObject]()
     
     @IBAction func favButtonClicked(sender: AnyObject) {
-        print(sender.tag)
         var appDel: AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
         var context: NSManagedObjectContext = appDel.managedObjectContext
         
@@ -30,9 +29,15 @@ class RepositoryViewController: UITableViewController {
                 if fetchResults.count != 0{
     
                     var managedObject = fetchResults[0]
-                    managedObject.setValue(true, forKey: "isFavourite")
-    
+                    var boolvalue = fetchResults[0].valueForKey("isFavourite") as? String
+                    if boolvalue=="false" {
+                        managedObject.setValue("true", forKey: "isFavourite")
+                    }
+                    else{
+                        managedObject.setValue("false", forKey: "isFavourite")
+                    }
                     try context.save()
+                    displayData()
                 }
 
         } catch let error as NSError {
@@ -47,6 +52,7 @@ class RepositoryViewController: UITableViewController {
         
         
         if Reachability.isConnectedToNetwork() == true {
+            displayData()
             getRepositories()
         } else {
             displayData()
@@ -103,7 +109,7 @@ class RepositoryViewController: UITableViewController {
                     
                     //3
                     repo.setValue(name, forKey: "repositoryName")
-                    repo.setValue(false, forKey: "isFavourite")
+                    repo.setValue("false", forKey: "isFavourite")
                     
                     //4
                     do {
@@ -187,7 +193,11 @@ class RepositoryViewController: UITableViewController {
         cell.favButton.addTarget(self, action: #selector(favButtonClicked(_:)), forControlEvents: .TouchUpInside)
         dispatch_async(dispatch_get_main_queue(), {
             
-            
+            if self.repositories[indexPath.row].valueForKey("isFavourite") as? String == "true"{
+                cell.favButton.setImage(UIImage(named: "filledstar.png"), forState: UIControlState.Normal)
+            }else{
+                cell.favButton.setImage(UIImage(named: "unfilledstar.png"), forState: UIControlState.Normal)
+            }
             cell.repositoryName.text = self.repositories[indexPath.row].valueForKey("repositoryName") as? String
 
             

@@ -5,12 +5,12 @@
         <attribute name="repositoryName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Repositories" syncable="YES">
-        <attribute name="isFavourite" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isFavourite" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="repositoryName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="hasContributors" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Contributors" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Repositories" positionX="-414" positionY="-18" width="108" height="88"/>
         <element name="Contributors" positionX="-263" positionY="-18" width="128" height="73"/>
+        <element name="Repositories" positionX="-414" positionY="-18" width="108" height="90"/>
     </elements>
 </model>
