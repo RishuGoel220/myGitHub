@@ -72,7 +72,8 @@ class RepositoryViewController: UITableViewController {
     }
     
     func getRepositories(){
-        Alamofire.request(.GET, "https://api.github.com/orgs/practo/repos", parameters: [:])
+        print(currentUser().valueForKey("username") as! String)
+        Alamofire.request(.GET, "https://api.github.com/users/\(currentUser().valueForKey("username") as! String)/repos", parameters: [:])
             .responseJSON { response in
                 let json = JSON(response.result.value!)
                 
@@ -100,12 +101,17 @@ class RepositoryViewController: UITableViewController {
                                 let fetchResults =
                                     try managedContext.executeFetchRequest(fetchRequest)
                                 if fetchResults.count != 0{
+                                    fetchResults[0].setValue(descriptionRepo, forKey: "descriptionRepo")
+                                    try managedContext.save()
                                     print ("exists")
                                     continue
                                 }
                                 else{
                                     print("not with user")
                                     fetchResults[0].setValue(self.currentUser(), forKey: "users")
+                                    fetchResults[0].setValue(descriptionRepo, forKey: "descriptionRepo")
+                                    try managedContext.save()
+                                    
                                 }
                                 
                             } catch let error as NSError {
