@@ -73,11 +73,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/RepositoryViewController.swift"
-            timestampString = "493302182.28558"
+            timestampString = "493410003.122121"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
+            startingLineNumber = "219"
+            endingLineNumber = "219"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -89,11 +89,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/RepositoryViewController.swift"
-            timestampString = "493302182.28558"
+            timestampString = "493410003.122121"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "215"
-            endingLineNumber = "215"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -168,11 +168,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/ContributorViewController.swift"
-            timestampString = "493371809.848567"
+            timestampString = "493403910.98592"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -184,11 +184,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/ContributorViewController.swift"
-            timestampString = "493371809.848567"
+            timestampString = "493403910.98592"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -200,23 +200,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/ContributorViewController.swift"
-            timestampString = "493371809.848567"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
-            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "major/ContributorViewController.swift"
-            timestampString = "493371809.848567"
+            timestampString = "493403910.98592"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "210"
@@ -232,11 +216,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/ContributorViewController.swift"
-            timestampString = "493371809.848567"
+            timestampString = "493403910.98592"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
+            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "major/ContributorViewController.swift"
+            timestampString = "493403910.98592"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "211"
+            endingLineNumber = "211"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>

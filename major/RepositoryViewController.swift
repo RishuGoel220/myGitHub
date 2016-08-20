@@ -53,7 +53,7 @@ class RepositoryViewController: UITableViewController {
         
         refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: #selector(RepositoryViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
-        
+        printUsers()
         self.tableView.addSubview(refreshControl!)
         if Reachability.isConnectedToNetwork() == true {
             displayData()
@@ -85,15 +85,33 @@ class RepositoryViewController: UITableViewController {
                     let managedContext = appDelegate.managedObjectContext
                     
                     
-                    let fetchRequest = NSFetchRequest(entityName: "Repositories")
-                    fetchRequest.predicate = NSPredicate(format: "repositoryName = %@", name)
                     
-                    
+                    // check if the repository exists
                     do {
+                        let fetchRequest = NSFetchRequest(entityName: "Repositories")
+                        fetchRequest.predicate = NSPredicate(format: "repositoryName = %@", name)
                         let fetchResults =
                             try managedContext.executeFetchRequest(fetchRequest)
                         if fetchResults.count != 0{
-                            continue
+                            do {
+                                
+                                let fetchRequest = NSFetchRequest(entityName: "Repositories")
+                                fetchRequest.predicate = NSPredicate(format: "repositoryName = %@ and users CONTAINS %@", name, self.currentUser())
+                                let fetchResults =
+                                    try managedContext.executeFetchRequest(fetchRequest)
+                                if fetchResults.count != 0{
+                                    print ("exists")
+                                    continue
+                                }
+                                else{
+                                    print("not with user")
+                                    fetchResults[0].setValue(self.currentUser(), forKey: "users")
+                                }
+                                
+                            } catch let error as NSError {
+                                print("Could not fetch \(error), \(error.userInfo)")
+                            }
+                            
                         }
                         
                     } catch let error as NSError {
@@ -107,7 +125,8 @@ class RepositoryViewController: UITableViewController {
                     
                     
                     
-                    //2
+                    //if repository doesnt exist
+                    print("doesnt exist")
                     let entity =  NSEntityDescription.entityForName("Repositories",
                         inManagedObjectContext:managedContext)
                     
@@ -118,6 +137,7 @@ class RepositoryViewController: UITableViewController {
                     repo.setValue(name, forKey: "repositoryName")
                     repo.setValue("false", forKey: "isFavourite")
                     repo.setValue(descriptionRepo, forKey: "descriptionRepo")
+                    repo.setValue(NSSet(object : self.currentUser()), forKey: "users")
                     
                     //4
                     do {
@@ -142,7 +162,7 @@ class RepositoryViewController: UITableViewController {
             
             //2
             let fetchRequest = NSFetchRequest(entityName: "Repositories")
-            
+            fetchRequest.predicate = NSPredicate(format: "users CONTAINS %@", self.currentUser())
             //3
             do {
                 let results =
@@ -232,12 +252,65 @@ class RepositoryViewController: UITableViewController {
         if  segue.identifier == "logoutSegue"
         {
             let destination = segue.destinationViewController as? ViewController
-            let keychain = Keychain(service: "com.example.Practo.major")
+                        let keychain = Keychain(service: "com.example.Practo.major")
             do {
               try keychain.remove("Auth_token")
             } catch let error {
               print("error: \(error)")
             }
+            
+            
+            let appDelegate =
+                UIApplication.sharedApplication().delegate as! AppDelegate
+            
+            let managedContext = appDelegate.managedObjectContext
+            let managedObject = currentUser()
+            managedObject.setValue("no", forKey: "current")
+            do{
+                try managedContext.save()
+                    return
+            } catch let error as NSError {
+                print("Could not fetch \(error), \(error.userInfo)")
+            }
+
+        }
+    }
+    
+    func currentUser()-> NSManagedObject{
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext
+        
+        
+        let fetchRequest = NSFetchRequest(entityName: "Users")
+        fetchRequest.predicate = NSPredicate(format: "current = \"yes\"")
+    
+        do {
+            let fetchResults =
+                try managedContext.executeFetchRequest(fetchRequest)
+            let managedObject = fetchResults[0]
+                return managedObject as! NSManagedObject
+            
+            
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        let dummy = NSManagedObject()
+        return dummy
+    }
+    
+    func printUsers(){
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext
+        
+        do {
+              print(self.currentUser())
+            
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
         }
     }
 

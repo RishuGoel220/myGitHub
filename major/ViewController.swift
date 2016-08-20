@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import KeychainAccess
+import CoreData
 
 class ViewController: UIViewController {
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
@@ -29,7 +30,7 @@ class ViewController: UIViewController {
     @IBAction func loginButtonPressed(sender: UIButton) {
         loginAction()
     }
-    
+
     func loginAction(){
         usernameTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
@@ -46,6 +47,7 @@ class ViewController: UIViewController {
             self.apiCaller.login(usernameTextField.text!, password: passwordTextField.text!){jsondata, response in
                 self.activityIndicator.hidden = true
                 if response.response?.statusCode==200 || response.response?.statusCode==201{
+                    self.addUserToDatabase(self.usernameTextField.text!)
                     self.performSegueWithIdentifier("loginSegue", sender: self)
                     
                 }
@@ -84,6 +86,68 @@ class ViewController: UIViewController {
     
     
     
+    
+    
+    func addUserToDatabase(username : String){
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext
+        
+        
+        let fetchRequest = NSFetchRequest(entityName: "Users")
+        fetchRequest.predicate = NSPredicate(format: "username = %@", username)
+        
+        
+        do {
+            let fetchResults =
+                try managedContext.executeFetchRequest(fetchRequest)
+            if fetchResults.count != 0{
+                let managedObject = fetchResults[0]
+                managedObject.setValue("yes", forKey: "current")
+                try managedContext.save()
+                return
+            }
+            
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        //2
+        let entity =  NSEntityDescription.entityForName("Users",
+                                                        inManagedObjectContext:managedContext)
+        
+        let user = NSManagedObject(entity: entity!,
+                                   insertIntoManagedObjectContext: managedContext)
+        
+        //3
+        user.setValue(username, forKey: "username")
+        user.setValue("yes", forKey: "current")
+        
+        //4
+        do {
+            try managedContext.save()
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        }
+        
+
+    
+    }
+
+
+
+
+
+
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if apiCaller.hasAuthToken() == true{
@@ -96,7 +160,7 @@ class ViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        printUsers()
         // set image background
         let width = UIScreen.mainScreen().bounds.size.width
         let height = UIScreen.mainScreen().bounds.size.height
@@ -110,6 +174,31 @@ class ViewController: UIViewController {
         
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    
+    
+    func printUsers(){
+        let appDelegate =
+            UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext
+        
+        
+        let fetchRequest = NSFetchRequest(entityName: "Users")
+        
+        
+        do {
+            let fetchResults =
+                try managedContext.executeFetchRequest(fetchRequest)
+            if fetchResults.count != 0{
+                print(fetchResults)
+            }
+            
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

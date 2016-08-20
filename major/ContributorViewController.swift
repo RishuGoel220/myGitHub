@@ -15,6 +15,7 @@ import AlamofireImage
 class ContributorViewController: UITableViewController {
     
     var repository:String = ""
+    var userLoggedIn:String = ""
     var contributors = [NSManagedObject]()
     
     override func viewDidLoad() {
