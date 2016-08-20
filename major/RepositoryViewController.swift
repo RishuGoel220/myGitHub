@@ -10,16 +10,17 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import CoreData
+import KeychainAccess
 
 class RepositoryViewController: UITableViewController {
     
     var repositories = [NSManagedObject]()
     
     @IBAction func favButtonClicked(sender: AnyObject) {
-        var appDel: AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
-        var context: NSManagedObjectContext = appDel.managedObjectContext
+        let appDel: AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
+        let context: NSManagedObjectContext = appDel.managedObjectContext
         
-        var fetchRequest = NSFetchRequest(entityName: "Repositories")
+        let fetchRequest = NSFetchRequest(entityName: "Repositories")
         fetchRequest.predicate = NSPredicate(format: "repositoryName = %@", (self.repositories[sender.tag].valueForKey("repositoryName") as? String)!)
         
         
@@ -28,8 +29,8 @@ class RepositoryViewController: UITableViewController {
                 try appDel.managedObjectContext.executeFetchRequest(fetchRequest)
                 if fetchResults.count != 0{
     
-                    var managedObject = fetchResults[0]
-                    var boolvalue = fetchResults[0].valueForKey("isFavourite") as? String
+                    let managedObject = fetchResults[0]
+                    let boolvalue = fetchResults[0].valueForKey("isFavourite") as? String
                     if boolvalue=="false" {
                         managedObject.setValue("true", forKey: "isFavourite")
                     }
@@ -50,7 +51,10 @@ class RepositoryViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        refreshControl = UIRefreshControl()
+        refreshControl!.addTarget(self, action: #selector(RepositoryViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         
+        self.tableView.addSubview(refreshControl!)
         if Reachability.isConnectedToNetwork() == true {
             displayData()
             getRepositories()
@@ -61,7 +65,11 @@ class RepositoryViewController: UITableViewController {
     }
     
     
-    
+    func refresh(sender:AnyObject) {
+        
+        getRepositories()
+        
+    }
     
     func getRepositories(){
         Alamofire.request(.GET, "https://api.github.com/orgs/practo/repos", parameters: [:])
@@ -69,14 +77,15 @@ class RepositoryViewController: UITableViewController {
                 let json = JSON(response.result.value!)
                 
                 for item in json.arrayValue {
-                    var name = item["name"].stringValue
+                    let name = item["name"].stringValue
+                    let descriptionRepo = item["description"].stringValue
                     let appDelegate =
                         UIApplication.sharedApplication().delegate as! AppDelegate
                     
                     let managedContext = appDelegate.managedObjectContext
                     
                     
-                    var fetchRequest = NSFetchRequest(entityName: "Repositories")
+                    let fetchRequest = NSFetchRequest(entityName: "Repositories")
                     fetchRequest.predicate = NSPredicate(format: "repositoryName = %@", name)
                     
                     
@@ -84,14 +93,12 @@ class RepositoryViewController: UITableViewController {
                         let fetchResults =
                             try managedContext.executeFetchRequest(fetchRequest)
                         if fetchResults.count != 0{
-                            print (name)
                             continue
                         }
                         
                     } catch let error as NSError {
                         print("Could not fetch \(error), \(error.userInfo)")
                     }
-                    print(name+"hi")
                     
                     
                     
@@ -110,11 +117,11 @@ class RepositoryViewController: UITableViewController {
                     //3
                     repo.setValue(name, forKey: "repositoryName")
                     repo.setValue("false", forKey: "isFavourite")
+                    repo.setValue(descriptionRepo, forKey: "descriptionRepo")
                     
                     //4
                     do {
                         try managedContext.save()
-                        self.repositories.append(repo)
                     } catch let error as NSError  {
                         print("Could not save \(error), \(error.userInfo)")
                     }
@@ -148,27 +155,28 @@ class RepositoryViewController: UITableViewController {
             
             
         })
+        refreshControl!.endRefreshing()
     }
-    
-    func deleteAllData(entity: String)
-    {
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entity)
-        fetchRequest.returnsObjectsAsFaults = false
-        
-        do
-        {
-            let results = try managedContext.executeFetchRequest(fetchRequest)
-            for managedObject in results
-            {
-                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
-                managedContext.deleteObject(managedObjectData)
-            }
-        } catch let error as NSError {
-            print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
-        }
-    }
+//    
+//    func deleteAllData(entity: String)
+//    {
+//        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+//        let managedContext = appDelegate.managedObjectContext
+//        let fetchRequest = NSFetchRequest(entityName: entity)
+//        fetchRequest.returnsObjectsAsFaults = false
+//        
+//        do
+//        {
+//            let results = try managedContext.executeFetchRequest(fetchRequest)
+//            for managedObject in results
+//            {
+//                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
+//                managedContext.deleteObject(managedObjectData)
+//            }
+//        } catch let error as NSError {
+//            print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
+//        }
+//    }
     
     
     override func didReceiveMemoryWarning() {
@@ -207,12 +215,29 @@ class RepositoryViewController: UITableViewController {
         return cell
         
     }
+    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        let message = "Description : \(self.repositories[indexPath.row].valueForKey("descriptionRepo") as! String)"
+        let alert = UIAlertView(title: "\(self.repositories[indexPath.row].valueForKey("repositoryName") as! String) ", message: message, delegate: self, cancelButtonTitle: "OK")
+        alert.show()
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if  segue.identifier == "contributorSegue"
         {
             let destination = segue.destinationViewController as? ContributorViewController,
             repositoryIndex = tableView.indexPathForSelectedRow?.row
             destination!.repository  = (self.repositories[repositoryIndex!].valueForKey("repositoryName") as? String)!
+        }
+        
+        if  segue.identifier == "logoutSegue"
+        {
+            let destination = segue.destinationViewController as? ViewController
+            let keychain = Keychain(service: "com.example.Practo.major")
+            do {
+              try keychain.remove("Auth_token")
+            } catch let error {
+              print("error: \(error)")
+            }
         }
     }
 

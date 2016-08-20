@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15D21" minimumToolsVersion="Automatic">
     <entity name="Contributors" syncable="YES">
+        <attribute name="avatarUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contributions" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contributorsName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="repositoryName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="repository" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Repositories" inverseName="contributors" inverseEntity="Repositories" syncable="YES"/>
     </entity>
     <entity name="Repositories" syncable="YES">
+        <attribute name="descriptionRepo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isFavourite" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="repositoryName" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="hasContributors" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Contributors" syncable="YES"/>
+        <relationship name="contributors" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Contributors" inverseName="repository" inverseEntity="Contributors" syncable="YES"/>
+        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="repositories" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="User" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="repositories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Repositories" inverseName="users" inverseEntity="Repositories" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Contributors" positionX="-263" positionY="-18" width="128" height="73"/>
-        <element name="Repositories" positionX="-414" positionY="-18" width="108" height="90"/>
+        <element name="Contributors" positionX="-263" positionY="-18" width="128" height="105"/>
+        <element name="Repositories" positionX="-414" positionY="-18" width="108" height="120"/>
+        <element name="User" positionX="-342" positionY="9" width="128" height="75"/>
     </elements>
 </model>

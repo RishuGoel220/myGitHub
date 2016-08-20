@@ -62,6 +62,11 @@ class favouritesViewController: UITableViewController {
         return repositories.count
         
     }
+    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        let message = "Description : \(self.repositories[indexPath.row].valueForKey("descriptionRepo") as! String)"
+        let alert = UIAlertView(title: "\(self.repositories[indexPath.row].valueForKey("repositoryName") as! String) ", message: message, delegate: self, cancelButtonTitle: "OK")
+        alert.show()
+    }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("favouritePrototype") as! favouriteCells
