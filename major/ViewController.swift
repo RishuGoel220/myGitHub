@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
+    @IBOutlet weak var otpTextField: UITextField!
     @IBAction func userNameReturnPressed(sender: AnyObject) {
         usernameTextField.resignFirstResponder()
         passwordTextField.becomeFirstResponder()
@@ -24,14 +25,14 @@ class ViewController: UIViewController {
     
     @IBAction func passwordReturnPressed(sender: AnyObject) {
         passwordTextField.resignFirstResponder()
-        loginAction()
+        loginAction("")
         
     }
     @IBAction func loginButtonPressed(sender: UIButton) {
-        loginAction()
+        loginAction(otpTextField.text!)
     }
 
-    func loginAction(){
+    func loginAction(otpField  :String){
         usernameTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
         
@@ -44,7 +45,7 @@ class ViewController: UIViewController {
             self.view.addSubview(self.activityIndicator)
             self.activityIndicator.startAnimating()
             
-            self.apiCaller.login(usernameTextField.text!, password: passwordTextField.text!){jsondata, response in
+            self.apiCaller.login(usernameTextField.text!, password: passwordTextField.text!, otp: otpField){jsondata, response in
                 self.activityIndicator.hidden = true
                 if response.response?.statusCode==200 || response.response?.statusCode==201{
                     self.addUserToDatabase(self.usernameTextField.text!)
@@ -52,13 +53,24 @@ class ViewController: UIViewController {
                     
                 }
                 else if response.result.description == "SUCCESS" {
-                    
-                    self.activityIndicator.hidden = true
-                    let startIndex = response.result.debugDescription.rangeOfString("message")?.endIndex.advancedBy(4)
-                    let finalIndex = response.result.debugDescription.endIndex.advancedBy(-4)
-                    let rangeMessage = Range<String.Index>(start: startIndex!, end: finalIndex)
-                    let alert = UIAlertView(title: "Invalid", message: "Error : \(response.result.debugDescription.substringWithRange(rangeMessage))", delegate: self, cancelButtonTitle: "OK")
-                    alert.show()
+                    if response.response?.statusCode==401{
+                        
+                        if response.response!.allHeaderFields["X-GitHub-OTP"]!.containsString("required"){
+                            self.otpTextField.hidden = false
+                            self.usernameTextField.hidden = true
+                            self.passwordTextField.hidden = true
+                            self.otpTextField.resignFirstResponder()
+                        }
+                        
+                    }
+                    else{
+                        self.activityIndicator.hidden = true
+                        let startIndex = response.result.debugDescription.rangeOfString("message")?.endIndex.advancedBy(4)
+                        let finalIndex = response.result.debugDescription.endIndex.advancedBy(-4)
+                        let rangeMessage = Range<String.Index>(start: startIndex!, end: finalIndex)
+                        let alert = UIAlertView(title: "Invalid", message: "Error : \(response.result.debugDescription.substringWithRange(rangeMessage))", delegate: self, cancelButtonTitle: "OK")
+                        alert.show()
+                    }
                     // with different status code what to do   401 wrong credentials 403 forbidden 404 -1
                 }
                 else{
@@ -160,6 +172,7 @@ class ViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.otpTextField.hidden = true
         printUsers()
         // set image background
         let width = UIScreen.mainScreen().bounds.size.width

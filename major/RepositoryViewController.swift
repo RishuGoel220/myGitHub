@@ -21,7 +21,7 @@ class RepositoryViewController: UITableViewController {
         let context: NSManagedObjectContext = appDel.managedObjectContext
         
         let fetchRequest = NSFetchRequest(entityName: "Repositories")
-        fetchRequest.predicate = NSPredicate(format: "repositoryName = %@", (self.repositories[sender.tag].valueForKey("repositoryName") as? String)!)
+        fetchRequest.predicate = NSPredicate(format: "repositoryName = %@ and users CONTAINS %@", (self.repositories[sender.tag].valueForKey("repositoryName") as? String)!,self.currentUser())
         
         
         do {
@@ -98,20 +98,13 @@ class RepositoryViewController: UITableViewController {
                                 
                                 let fetchRequest = NSFetchRequest(entityName: "Repositories")
                                 fetchRequest.predicate = NSPredicate(format: "repositoryName = %@ and users CONTAINS %@", name, self.currentUser())
-                                let fetchResults =
+                                let fetchResultsWithUser =
                                     try managedContext.executeFetchRequest(fetchRequest)
-                                if fetchResults.count != 0{
-                                    fetchResults[0].setValue(descriptionRepo, forKey: "descriptionRepo")
+                                if fetchResultsWithUser.count != 0{
+                                    fetchResultsWithUser[0].setValue(descriptionRepo, forKey: "descriptionRepo")
                                     try managedContext.save()
                                     print ("exists")
                                     continue
-                                }
-                                else{
-                                    print("not with user")
-                                    fetchResults[0].setValue(self.currentUser(), forKey: "users")
-                                    fetchResults[0].setValue(descriptionRepo, forKey: "descriptionRepo")
-                                    try managedContext.save()
-                                    
                                 }
                                 
                             } catch let error as NSError {

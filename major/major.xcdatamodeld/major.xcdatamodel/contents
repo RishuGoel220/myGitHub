@@ -11,7 +11,7 @@
         <attribute name="isFavourite" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="repositoryName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="contributors" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Contributors" inverseName="repository" inverseEntity="Contributors" syncable="YES"/>
-        <relationship name="users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Users" inverseName="repositories" inverseEntity="Users" syncable="YES"/>
+        <relationship name="users" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Users" inverseName="repositories" inverseEntity="Users" syncable="YES"/>
     </entity>
     <entity name="Users" syncable="YES">
         <attribute name="current" optional="YES" attributeType="String" syncable="YES"/>

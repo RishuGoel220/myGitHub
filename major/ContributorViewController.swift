@@ -43,7 +43,7 @@ class ContributorViewController: UITableViewController {
         //let deleteresults = deleteAllData("Contributors")
         
         // Alamofire request
-        Alamofire.request(.GET, "https://api.github.com/repos/rishugoel220/"+repository+"/contributors", parameters: [:], headers: [:])
+        Alamofire.request(.GET, "https://api.github.com/repos/\(RepositoryViewController().currentUser().valueForKey("username") as! String)/"+repository+"/contributors", parameters: [:], headers: [:])
             .responseJSON { response in
                 let json = JSON(response.result.value!)
                 

@@ -40,7 +40,7 @@ class APIcaller{
     
     
     
-    func login(userName : String, password : String, completion : (JSON, Response<AnyObject, NSError> ) -> ()){
+    func login(userName : String, password : String, otp: String, completion : (JSON, Response<AnyObject, NSError> ) -> ()){
         let parameters = [
             "scopes"    : ["repo"],
             "note" : "token for repos",
@@ -51,30 +51,62 @@ class APIcaller{
         
         let credentialData = "\(userName):\(password)".dataUsingEncoding(NSUTF8StringEncoding)!
         let base64Credentials = credentialData.base64EncodedStringWithOptions([])
-        let headers = ["Authorization": "Basic \(base64Credentials)"]
-        
-        Alamofire.request(.POST, API_URL+"authorizations", parameters: parameters as! [String : AnyObject], encoding: .JSON, headers: headers).responseJSON { response in
-            let jsonData = JSON(data: response.data!)
-            if (response.result.error == nil){
+        if !(otp == ""){
             
-            let AUTH_TOKEN = jsonData["token"].stringValue
-            
-            if response.response?.statusCode <= 300 {
-                let keychain = Keychain(service: "com.example.Practo.major")
-                do {
-                    try keychain.set(AUTH_TOKEN,key : "Auth_token")
-                }catch let error {
-                    print(error)
+            let headers = ["Authorization": "Basic \(base64Credentials)", "X-GitHub-OTP": "\(otp)"]
+            Alamofire.request(.POST, API_URL+"authorizations", parameters: parameters as? [String : AnyObject], encoding: .JSON, headers: headers).responseJSON { response in
+                let jsonData = JSON(data: response.data!)
+                print(response.response)
+                if (response.result.error == nil){
+                    
+                    let AUTH_TOKEN = jsonData["token"].stringValue
+                    
+                    if response.response?.statusCode <= 300 {
+                        let keychain = Keychain(service: "com.example.Practo.major")
+                        do {
+                            try keychain.set(AUTH_TOKEN,key : "Auth_token")
+                        }catch let error {
+                            print(error)
+                        }
+                    }
+                    
+                    completion(jsonData, response)
                 }
+                else{
+                    completion(jsonData, response)
+                }
+                
             }
-            
-            completion(jsonData, response)
-            }
-            else{
-                completion(jsonData, response)
-            }
-        
         }
+        else{
+            
+            let headers = ["Authorization": "Basic \(base64Credentials)"]
+            Alamofire.request(.POST, API_URL+"authorizations", parameters: parameters as? [String : AnyObject], encoding: .JSON, headers: headers).responseJSON { response in
+                let jsonData = JSON(data: response.data!)
+                print(response.response)
+                if (response.result.error == nil){
+                    
+                    let AUTH_TOKEN = jsonData["token"].stringValue
+                    
+                    if response.response?.statusCode <= 300 {
+                        let keychain = Keychain(service: "com.example.Practo.major")
+                        do {
+                            try keychain.set(AUTH_TOKEN,key : "Auth_token")
+                        }catch let error {
+                            print(error)
+                        }
+                    }
+                    
+                    completion(jsonData, response)
+                }
+                else{
+                    completion(jsonData, response)
+                }
+                
+            }
+        }
+        
+        
     }
     
     
