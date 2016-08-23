@@ -163,7 +163,7 @@ class ViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if apiCaller.hasAuthToken() == true{
-            let vc = self.storyboard!.instantiateViewControllerWithIdentifier("repositoryView") as! UINavigationController
+            let vc = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as! UITabBarController
             self.presentViewController(vc, animated: true, completion: nil)
         }
         else{
@@ -172,16 +172,18 @@ class ViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+
         self.otpTextField.hidden = true
         printUsers()
         // set image background
         let width = UIScreen.mainScreen().bounds.size.width
         let height = UIScreen.mainScreen().bounds.size.height
         let imageViewBackground = UIImageView(frame: CGRectMake(0, 0, width, height))
-        imageViewBackground.image = UIImage(named: "LoginImage.jpg")
+        imageViewBackground.image = UIImage(named: "backgroundLogin2.png")
         
         // you can change the content mode:
         imageViewBackground.contentMode = UIViewContentMode.ScaleAspectFill
+        imageViewBackground.alpha = 0.8
         self.view.addSubview(imageViewBackground)
         self.view.sendSubviewToBack(imageViewBackground)
         
@@ -219,7 +221,7 @@ class ViewController: UIViewController {
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if segue.identifier == "loginSegue" {
-            let destination = segue.destinationViewController as? UINavigationController
+            let destination = segue.destinationViewController as? UITabBarController
         }
         
     }

@@ -22,7 +22,13 @@ class APIcaller{
     
     func hasAuthToken()->Bool{
         
+        
         let keychain = Keychain(service: "com.example.Practo.major")
+        do{
+            try keychain.remove("Auth_token")
+        }catch{
+            
+        }
         let AUTH_TOKEN = keychain["Auth_token"]
         
         debugPrint(AUTH_TOKEN)
@@ -36,7 +42,86 @@ class APIcaller{
     
     
     
+    func getIssueCount(repositoryName : String, username : String, result: (Issues: [Int])-> Void) {
+        var openIssueCount : Int = 0
+        var closedIssueCount : Int = 0
+        let keychain = Keychain(service: "com.example.Practo.major")
+        let headers = ["Authorization": "bearer \(keychain["Auth_token"]! as String)"]
+        Alamofire.request(.GET, "https://api.github.com/repos/\(username)/\(repositoryName)/issues", parameters: [:],headers: headers)
+            .responseJSON { response in
+                
+                let json = JSON(response.result.value!)
+                for item in json.arrayValue {
+                    if item["state"] == "open"{
+                        openIssueCount = openIssueCount + 1
+                    }
+                    else{
+                        closedIssueCount = closedIssueCount + 1
+                    }
+                    
+                    
+                }
+                print(openIssueCount,repositoryName)
+                result(Issues: [openIssueCount, closedIssueCount])
+                
+        }
+        
+        
+    }
     
+    
+    
+    func getPRCount(repositoryName : String, username : String, result: (PR: [Int])->Void){
+        
+        var openPRCount : Int = 0
+        var mergedPRCount : Int = 0
+        let keychain = Keychain(service: "com.example.Practo.major")
+        let headers = ["Authorization": "token \(keychain["Auth_token"]! as String)"]
+        Alamofire.request(.GET, "https://api.github.com/repos/\(username)/\(repositoryName)/issues", parameters: [:], headers: headers)
+            .responseJSON { response in
+                
+                let json = JSON(response.result.value!)
+                
+                for item in json.arrayValue {
+                    if item["state"] == "open"{
+                        openPRCount = openPRCount + 1
+                    }
+                    else{
+                        mergedPRCount = mergedPRCount + 1
+                    }
+                    
+                    
+                }
+                
+                print(openPRCount,repositoryName)
+                result(PR: [openPRCount, mergedPRCount])
+                
+        }
+        
+    }
+    
+    
+    func getCommitCount(repositoryName : String, username : String, commitcount: (Int)->Void){
+        var commitCount : Int = 0
+        
+        let keychain = Keychain(service: "com.example.Practo.major")
+        let headers = ["Authorization": "token \(keychain["Auth_token"]! as String) "]
+        Alamofire.request(.GET, "https://api.github.com/repos/\(username)/\(repositoryName)/issues", parameters: [:], headers: headers)
+            .responseJSON { response in
+                
+                let json = JSON(response.result.value!)
+                
+                for item in json.arrayValue {
+                    commitCount = commitCount + item["total"].intValue
+                    
+                    
+                }
+                commitcount(commitCount)
+                
+                
+        }
+        
+    }
     
     
     
@@ -56,10 +141,11 @@ class APIcaller{
             let headers = ["Authorization": "Basic \(base64Credentials)", "X-GitHub-OTP": "\(otp)"]
             Alamofire.request(.POST, API_URL+"authorizations", parameters: parameters as? [String : AnyObject], encoding: .JSON, headers: headers).responseJSON { response in
                 let jsonData = JSON(data: response.data!)
-                print(response.response)
+                
                 if (response.result.error == nil){
                     
                     let AUTH_TOKEN = jsonData["token"].stringValue
+                    
                     
                     if response.response?.statusCode <= 300 {
                         let keychain = Keychain(service: "com.example.Practo.major")
@@ -83,9 +169,9 @@ class APIcaller{
             let headers = ["Authorization": "Basic \(base64Credentials)"]
             Alamofire.request(.POST, API_URL+"authorizations", parameters: parameters as? [String : AnyObject], encoding: .JSON, headers: headers).responseJSON { response in
                 let jsonData = JSON(data: response.data!)
-                print(response.response)
+                
                 if (response.result.error == nil){
-                    
+                   
                     let AUTH_TOKEN = jsonData["token"].stringValue
                     
                     if response.response?.statusCode <= 300 {

@@ -7,8 +7,14 @@
         <relationship name="repository" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Repositories" inverseName="contributors" inverseEntity="Repositories" syncable="YES"/>
     </entity>
     <entity name="Repositories" syncable="YES">
+        <attribute name="avatarUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="closedIssues" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="commits" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="descriptionRepo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isFavourite" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mergedPR" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="openIssues" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="openPR" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="repositoryName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="contributors" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Contributors" inverseName="repository" inverseEntity="Contributors" syncable="YES"/>
         <relationship name="users" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Users" inverseName="repositories" inverseEntity="Users" syncable="YES"/>
@@ -20,7 +26,7 @@
     </entity>
     <elements>
         <element name="Contributors" positionX="-263" positionY="-18" width="128" height="105"/>
-        <element name="Repositories" positionX="-414" positionY="-18" width="108" height="120"/>
+        <element name="Repositories" positionX="-414" positionY="-18" width="108" height="210"/>
         <element name="Users" positionX="-342" positionY="9" width="128" height="90"/>
     </elements>
 </model>

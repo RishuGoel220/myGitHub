@@ -19,6 +19,10 @@ class favouritesViewController: UITableViewController {
         displayData()
         // Do any additional setup after loading the view, typically from a nib.
     }
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        displayData()
+    }
     
     
     
@@ -85,7 +89,7 @@ class favouritesViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if  segue.identifier == "favContributorSegue"
         {
-            let destination = segue.destinationViewController as? ContributorViewController,
+            let destination = segue.destinationViewController as? contributorViewController,
             repositoryIndex = tableView.indexPathForSelectedRow?.row
             destination!.repository  = (self.repositories[repositoryIndex!].valueForKey("repositoryName") as? String)!
         }

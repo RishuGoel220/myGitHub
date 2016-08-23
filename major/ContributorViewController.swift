@@ -10,9 +10,10 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import CoreData
+import KeychainAccess
 import AlamofireImage
 
-class ContributorViewController: UITableViewController {
+class contributorViewController: UITableViewController {
     
     var repository:String = ""
     var userLoggedIn:String = ""
@@ -21,29 +22,31 @@ class ContributorViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         refreshControl = UIRefreshControl()
-        refreshControl!.addTarget(self, action: #selector(ContributorViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl!.addTarget(self, action: #selector(contributorViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         
         self.tableView.addSubview(refreshControl!)
         
         if Reachability.isConnectedToNetwork() == true {
-            displayData()
-            getContributors()
+            displayTable()
+            getContributors(self.repository)
         } else {
-            displayData()
+            displayTable()
         }
         
     }
     func refresh(sender:AnyObject) {
         
-        getContributors()
+        getContributors(self.repository)
         
     }
     
-    func getContributors(){
+    public func getContributors(repository: String){
         //let deleteresults = deleteAllData("Contributors")
         
         // Alamofire request
-        Alamofire.request(.GET, "https://api.github.com/repos/\(RepositoryViewController().currentUser().valueForKey("username") as! String)/"+repository+"/contributors", parameters: [:], headers: [:])
+        let keychain = Keychain(service: "com.example.Practo.major")
+        let headers = ["Authorization": "bearer \(keychain["Auth_token"]! as String)"]
+        Alamofire.request(.GET, "https://api.github.com/repos/\(RepositoryViewController().currentUser().valueForKey("username") as! String)/"+repository+"/contributors", parameters: [:], headers: headers)
             .responseJSON { response in
                 let json = JSON(response.result.value!)
                 
@@ -78,9 +81,10 @@ class ContributorViewController: UITableViewController {
                         do {
                             let fetchResults =
                                 try managedContext.executeFetchRequest(fetchRequest)
-                            print(fetchResults)
-                            print("hihihihihihih")
                             if fetchResults.count != 0{
+                                fetchResults[0].setValue(contributions, forKey: "contributions")
+                                fetchResults[0].setValue(avatarUrl, forKey: "avatarUrl")
+                                try managedContext.save()
                                 continue
                             }
                             
@@ -122,7 +126,7 @@ class ContributorViewController: UITableViewController {
                 //}
                 //debugPrint("delete old contributor")
                 //debugPrint(self.contributors)
-                self.displayData()
+                self.displayTable()
                 
         }
     }
@@ -131,7 +135,7 @@ class ContributorViewController: UITableViewController {
     
     
     
-    func displayData(){
+    func displayTable(){
         debugPrint("display data called")
         dispatch_async(dispatch_get_main_queue(), {
             let appDelegate =

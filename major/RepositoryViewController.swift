@@ -21,7 +21,7 @@ class RepositoryViewController: UITableViewController {
         let context: NSManagedObjectContext = appDel.managedObjectContext
         
         let fetchRequest = NSFetchRequest(entityName: "Repositories")
-        fetchRequest.predicate = NSPredicate(format: "repositoryName = %@ and users CONTAINS %@", (self.repositories[sender.tag].valueForKey("repositoryName") as? String)!,self.currentUser())
+        fetchRequest.predicate = NSPredicate(format: "repositoryName = %@ and users CONTAINS %@", (self.repositories[sender.tag].valueForKey("repositoryName") as? String)!, self.currentUser())
         
         
         do {
@@ -54,6 +54,12 @@ class RepositoryViewController: UITableViewController {
         refreshControl = UIRefreshControl()
         refreshControl!.addTarget(self, action: #selector(RepositoryViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         printUsers()
+        var inset = UIEdgeInsetsMake(5, 0, 0, 0);
+        self.tableView.contentInset = inset;
+
+
+        
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         self.tableView.addSubview(refreshControl!)
         if Reachability.isConnectedToNetwork() == true {
             displayData()
@@ -71,21 +77,27 @@ class RepositoryViewController: UITableViewController {
         
     }
     
+    
     func getRepositories(){
-        print(currentUser().valueForKey("username") as! String)
-        Alamofire.request(.GET, "https://api.github.com/users/\(currentUser().valueForKey("username") as! String)/repos", parameters: [:])
+        let username = currentUser().valueForKey("username") as! String
+        let keychain = Keychain(service: "com.example.Practo.major")
+        let headers = ["Authorization": "bearer \(keychain["Auth_token"]! as String)"]
+        Alamofire.request(.GET, "https://api.github.com/users/\(currentUser().valueForKey("username") as! String)/repos", parameters: [:], headers: headers)
             .responseJSON { response in
+                
                 let json = JSON(response.result.value!)
                 
                 for item in json.arrayValue {
+                    
                     let name = item["name"].stringValue
                     let descriptionRepo = item["description"].stringValue
+                    let avatarUrl =  item["owner"]["avatar_url"].stringValue
+                    
+                    
+                    print(name)
                     let appDelegate =
                         UIApplication.sharedApplication().delegate as! AppDelegate
-                    
                     let managedContext = appDelegate.managedObjectContext
-                    
-                    
                     
                     // check if the repository exists
                     do {
@@ -102,8 +114,13 @@ class RepositoryViewController: UITableViewController {
                                     try managedContext.executeFetchRequest(fetchRequest)
                                 if fetchResultsWithUser.count != 0{
                                     fetchResultsWithUser[0].setValue(descriptionRepo, forKey: "descriptionRepo")
+                                    fetchResultsWithUser[0].setValue(avatarUrl, forKey: "avatarUrl")
+                                    
+                                    
+                                    
+                                    
                                     try managedContext.save()
-                                    print ("exists")
+                                    
                                     continue
                                 }
                                 
@@ -125,7 +142,7 @@ class RepositoryViewController: UITableViewController {
                     
                     
                     //if repository doesnt exist
-                    print("doesnt exist")
+                    
                     let entity =  NSEntityDescription.entityForName("Repositories",
                         inManagedObjectContext:managedContext)
                     
@@ -136,9 +153,9 @@ class RepositoryViewController: UITableViewController {
                     repo.setValue(name, forKey: "repositoryName")
                     repo.setValue("false", forKey: "isFavourite")
                     repo.setValue(descriptionRepo, forKey: "descriptionRepo")
+                    repo.setValue(avatarUrl, forKey: "avatarUrl")
                     repo.setValue(NSSet(object : self.currentUser()), forKey: "users")
-                    
-                    //4
+                                       //4
                     do {
                         try managedContext.save()
                     } catch let error as NSError  {
@@ -162,10 +179,12 @@ class RepositoryViewController: UITableViewController {
             //2
             let fetchRequest = NSFetchRequest(entityName: "Repositories")
             fetchRequest.predicate = NSPredicate(format: "users CONTAINS %@", self.currentUser())
+            fetchRequest.returnsObjectsAsFaults = false
             //3
             do {
                 let results =
                     try managedContext.executeFetchRequest(fetchRequest)
+                
                 self.repositories = results as! [NSManagedObject]
                 self.tableView.reloadData()
             } catch let error as NSError {
@@ -218,34 +237,46 @@ class RepositoryViewController: UITableViewController {
         // Set the first row text label to the firstRowLabel data in our current array item
         cell.favButton.tag = indexPath.row
         cell.favButton.addTarget(self, action: #selector(favButtonClicked(_:)), forControlEvents: .TouchUpInside)
+        cell.view.layer.shadowColor = UIColor.blackColor().CGColor
+        cell.view.layer.shadowOpacity = 0.5
+        cell.view.layer.shadowOffset = CGSizeZero
+        cell.view.layer.shadowRadius = 1
         dispatch_async(dispatch_get_main_queue(), {
             
+            
             if self.repositories[indexPath.row].valueForKey("isFavourite") as? String == "true"{
-                cell.favButton.setImage(UIImage(named: "filledstar.png"), forState: UIControlState.Normal)
+                cell.favButton.setImage(UIImage(named: "heartfilled.png"), forState: UIControlState.Normal)
             }else{
-                cell.favButton.setImage(UIImage(named: "unfilledstar.png"), forState: UIControlState.Normal)
+                cell.favButton.setImage(UIImage(named: "heartunfilled.png"), forState: UIControlState.Normal)
             }
             cell.repositoryName.text = self.repositories[indexPath.row].valueForKey("repositoryName") as? String
-
+            cell.descriptionLabel.text = self.repositories[indexPath.row].valueForKey("descriptionRepo") as? String
+            let URL = NSURL(string: (self.repositories[indexPath.row].valueForKey("avatarUrl") as? String)!)
+            let placeholderImage = UIImage(named: "tabbutton.png")!
+            
+            cell.repositoryImage
+                .af_setImageWithURL(URL!, placeholderImage: placeholderImage)
             
         })
         
         // Return our new cell for display
         return cell
-        
     }
-    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
-        let message = "Description : \(self.repositories[indexPath.row].valueForKey("descriptionRepo") as! String)"
-        let alert = UIAlertView(title: "\(self.repositories[indexPath.row].valueForKey("repositoryName") as! String) ", message: message, delegate: self, cancelButtonTitle: "OK")
-        alert.show()
-    }
+//    }
+//    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+//        self.tableView.rowHeight = UITableViewAutomaticDimension;
+//        let message = "Description : \(self.repositories[indexPath.row].valueForKey("descriptionRepo") as! String)"
+//        let alert = UIAlertView(title: "\(self.repositories[indexPath.row].valueForKey("repositoryName") as! String) ", message: message, delegate: self, cancelButtonTitle: "OK")
+//        alert.show()
+//    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if  segue.identifier == "contributorSegue"
+        if  segue.identifier == "OpenDetailPage"
         {
-            let destination = segue.destinationViewController as? ContributorViewController,
+            let destination = segue.destinationViewController as! DetailViewController,
             repositoryIndex = tableView.indexPathForSelectedRow?.row
-            destination!.repository  = (self.repositories[repositoryIndex!].valueForKey("repositoryName") as? String)!
+            destination.repositoryName = (self.repositories[repositoryIndex!].valueForKey("repositoryName") as? String)!
+            destination.username = self.currentUser().valueForKey("username") as! String
         }
         
         if  segue.identifier == "logoutSegue"
