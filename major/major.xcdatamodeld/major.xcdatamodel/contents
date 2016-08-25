@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15D21" minimumToolsVersion="Automatic">
-    <entity name="Contributors" syncable="YES">
+    <entity name="Contributors" representedClassName=".Contributors" syncable="YES">
         <attribute name="avatarUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="commits" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="contributions" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contributorsName" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="repository" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Repositories" inverseName="contributors" inverseEntity="Repositories" syncable="YES"/>
+        <attribute name="linesAdded" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="linesDeleted" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="repository" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Repositories" inverseName="contributors" inverseEntity="Repositories" syncable="YES"/>
     </entity>
-    <entity name="Repositories" syncable="YES">
+    <entity name="Repositories" representedClassName=".Repositories" syncable="YES">
         <attribute name="avatarUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="closedIssues" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="commits" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="descriptionRepo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isFavourite" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mergedPR" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -19,14 +21,14 @@
         <relationship name="contributors" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Contributors" inverseName="repository" inverseEntity="Contributors" syncable="YES"/>
         <relationship name="users" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Users" inverseName="repositories" inverseEntity="Users" syncable="YES"/>
     </entity>
-    <entity name="Users" syncable="YES">
+    <entity name="Users" representedClassName=".Users" syncable="YES">
         <attribute name="current" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="repositories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Repositories" inverseName="users" inverseEntity="Repositories" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Contributors" positionX="-263" positionY="-18" width="128" height="105"/>
-        <element name="Repositories" positionX="-414" positionY="-18" width="108" height="210"/>
+        <element name="Contributors" positionX="-263" positionY="-18" width="128" height="150"/>
+        <element name="Repositories" positionX="-414" positionY="-18" width="108" height="195"/>
         <element name="Users" positionX="-342" positionY="9" width="128" height="90"/>
     </elements>
 </model>

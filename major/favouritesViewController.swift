@@ -14,14 +14,14 @@ class favouritesViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Fetch Data using Api call for repos
-        
         displayData()
-        // Do any additional setup after loading the view, typically from a nib.
+        
     }
+    
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        displayData()
+         displayData()
     }
     
     
@@ -59,7 +59,6 @@ class favouritesViewController: UITableViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -74,24 +73,19 @@ class favouritesViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("favouritePrototype") as! favouriteCells
-        // Set the first row text label to the firstRowLabel data in our current array item
         dispatch_async(dispatch_get_main_queue(), {
-            
-            
             cell.favouriteRepoName.text = self.repositories[indexPath.row].valueForKey("repositoryName") as? String
-            
         })
-        // Return our new cell for display
         return cell
 
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if  segue.identifier == "favContributorSegue"
+        if  segue.identifier == "RepositoryDescriptionScreen"
         {
-            let destination = segue.destinationViewController as? contributorViewController,
+            let destination = segue.destinationViewController as? RepositoryDetailsController,
             repositoryIndex = tableView.indexPathForSelectedRow?.row
-            destination!.repository  = (self.repositories[repositoryIndex!].valueForKey("repositoryName") as? String)!
+            destination!.repositoryName  = (self.repositories[repositoryIndex!].valueForKey("repositoryName") as? String)!
         }
     }
 }

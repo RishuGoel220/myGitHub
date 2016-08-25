@@ -14,10 +14,13 @@ import CoreData
 class ViewController: UIViewController {
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     let apiCaller = APIcaller()
+    
+// ---------------- Labels for Login Page -----------------------
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    
     @IBOutlet weak var otpTextField: UITextField!
+    
+//---------------- Actions For Textfields -----------------------
     @IBAction func userNameReturnPressed(sender: AnyObject) {
         usernameTextField.resignFirstResponder()
         passwordTextField.becomeFirstResponder()
@@ -28,154 +31,118 @@ class ViewController: UIViewController {
         loginAction("")
         
     }
+    
     @IBAction func loginButtonPressed(sender: UIButton) {
         loginAction(otpTextField.text!)
     }
 
+//------------------- Login Function ------------------------------
     func loginAction(otpField  :String){
+        
+        guard usernameTextField.text?.characters.count > 0 || passwordTextField.text?.characters.count > 0 else {
+            showValidationAlertWithMessage("Username and Password cannot be left blank")
+            return
+        }
+        
+        guard usernameTextField.text?.characters.count > 0 else {
+            showValidationAlertWithMessage("Please Enter Username")
+            return
+        }
+        
+        guard passwordTextField.text?.characters.count > 0 else {
+            showValidationAlertWithMessage("Please Enter Password")
+            return
+        }
+
         usernameTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
+
+        // if username and password is filled
+        startActivityIndicator()
         
-        
-        if usernameTextField.text != "" && passwordTextField.text != "" {
+        self.apiCaller.login(usernameTextField.text!, password: passwordTextField.text!, otp: otpField)
+        { jsondata, response in
             
-            self.activityIndicator.center = self.view.center
-            self.activityIndicator.hidden = false
-            self.activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-            self.view.addSubview(self.activityIndicator)
-            self.activityIndicator.startAnimating()
-            
-            self.apiCaller.login(usernameTextField.text!, password: passwordTextField.text!, otp: otpField){jsondata, response in
-                self.activityIndicator.hidden = true
-                if response.response?.statusCode==200 || response.response?.statusCode==201{
-                    self.addUserToDatabase(self.usernameTextField.text!)
+            self.activityIndicator.hidden = true
+
+            switch response.result {
+            case let .Success(successValue) :
+                let successjsonData = JSON(successValue)
+                guard let messageString = successjsonData.dictionaryValue["message"]?.stringValue where messageString.characters.count > 0 else {
+                    print(successjsonData)
+                    DatabaseHandler().addUser(self.usernameTextField.text!)
                     self.performSegueWithIdentifier("loginSegue", sender: self)
-                    
+                    return
                 }
-                else if response.result.description == "SUCCESS" {
-                    if response.response?.statusCode==401{
-                        
-                        if response.response!.allHeaderFields["X-GitHub-OTP"]!.containsString("required"){
-                            self.otpTextField.hidden = false
-                            self.usernameTextField.hidden = true
-                            self.passwordTextField.hidden = true
-                            self.otpTextField.resignFirstResponder()
-                        }
-                        
-                    }
-                    else{
-                        self.activityIndicator.hidden = true
-                        let startIndex = response.result.debugDescription.rangeOfString("message")?.endIndex.advancedBy(4)
-                        let finalIndex = response.result.debugDescription.endIndex.advancedBy(-4)
-                        let rangeMessage = Range<String.Index>(start: startIndex!, end: finalIndex)
-                        let alert = UIAlertView(title: "Invalid", message: "Error : \(response.result.debugDescription.substringWithRange(rangeMessage))", delegate: self, cancelButtonTitle: "OK")
-                        alert.show()
-                    }
-                    // with different status code what to do   401 wrong credentials 403 forbidden 404 -1
+
+                guard let _ = response.response?.allHeaderFields["X-GitHub-OTP"]?.containsString("required") else {
+                    self.showErrorAlertWithMessage(messageString)
+                    return
                 }
-                else{
-                    self.activityIndicator.hidden = true
-                    let alert = UIAlertView(title: "Invalid", message: "Error : \((response.result.error?.localizedDescription)! as String)", delegate: self, cancelButtonTitle: "OK")
-                    alert.show()
-                }
-            }
-        }
-        else if usernameTextField.text != "" {
-            let alert = UIAlertView(title: "Invalid", message: "Please Enter Password", delegate: self, cancelButtonTitle: "OK")
-            alert.show()
-        }
-        else if passwordTextField.text != "" {
-            let alert = UIAlertView(title: "Invalid", message: "Please Enter Username", delegate: self, cancelButtonTitle: "OK")
-            alert.show()
-        }
-        else{
-            let alert = UIAlertView(title: "Invalid", message: "Cant leave username and password blank", delegate: self, cancelButtonTitle: "OK")
-            alert.show()
-        }
-    }
-    
-    
-    
-    
-    
-    
-    
-    func addUserToDatabase(username : String){
-        let appDelegate =
-            UIApplication.sharedApplication().delegate as! AppDelegate
-        
-        let managedContext = appDelegate.managedObjectContext
-        
-        
-        let fetchRequest = NSFetchRequest(entityName: "Users")
-        fetchRequest.predicate = NSPredicate(format: "username = %@", username)
-        
-        
-        do {
-            let fetchResults =
-                try managedContext.executeFetchRequest(fetchRequest)
-            if fetchResults.count != 0{
-                let managedObject = fetchResults[0]
-                managedObject.setValue("yes", forKey: "current")
-                try managedContext.save()
-                return
+
+                self.otpTextField.hidden = false
+                self.usernameTextField.hidden = true
+                self.passwordTextField.hidden = true
+                self.otpTextField.resignFirstResponder()
+                
+            case let .Failure(errorValue) :
+                print(errorValue)
+                self.showErrorAlertWithMessage(errorValue.localizedDescription)
             }
             
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        //2
-        let entity =  NSEntityDescription.entityForName("Users",
-                                                        inManagedObjectContext:managedContext)
-        
-        let user = NSManagedObject(entity: entity!,
-                                   insertIntoManagedObjectContext: managedContext)
-        
-        //3
-        user.setValue(username, forKey: "username")
-        user.setValue("yes", forKey: "current")
-        
-        //4
-        do {
-            try managedContext.save()
-        } catch let error as NSError  {
-            print("Could not save \(error), \(error.userInfo)")
-        }
-        
-
+    }
     
+    func showErrorAlertWithMessage(message: String?) {
+        let messageString = message ?? "Something Went Wrong"
+        showAlert("Invalid", "Error : \(messageString)")
+    }
+    
+    func showValidationAlertWithMessage(message: String?) {
+        showAlert("Invalid", message)
+    }
+    
+    func showAlert(title: String? = nil, _ message: String? = nil) {
+        let alert = UIAlertView(title: title, message: message, delegate: nil, cancelButtonTitle: "OK")
+        alert.show()
     }
 
 
-
-
-
-
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        if apiCaller.hasAuthToken() == true{
-            let vc = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as! UITabBarController
-            self.presentViewController(vc, animated: true, completion: nil)
-        }
-        else{
-            print("No auth token")
-        }
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.otpTextField.hidden = true
-        printUsers()
-        // set image background
+        setBackgroudImage()
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if segue.identifier == "loginSegue" {
+            let destination = segue.destinationViewController as? UITabBarController
+        }
+        
+    }
+    
+    func startActivityIndicator(){
+        self.activityIndicator.center = self.view.center
+        self.activityIndicator.hidden = false
+        self.activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        self.view.addSubview(self.activityIndicator)
+        self.activityIndicator.startAnimating()
+        
+    }
+
+    func stopActivityIndicator(){
+        self.activityIndicator.stopAnimating()
+        self.activityIndicator.hidden = true
+        self.activityIndicator.removeFromSuperview()
+        
+    }
+    
+    func setBackgroudImage(){
         let width = UIScreen.mainScreen().bounds.size.width
         let height = UIScreen.mainScreen().bounds.size.height
         let imageViewBackground = UIImageView(frame: CGRectMake(0, 0, width, height))
@@ -187,43 +154,7 @@ class ViewController: UIViewController {
         self.view.addSubview(imageViewBackground)
         self.view.sendSubviewToBack(imageViewBackground)
         
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-    
-    
-    
-    func printUsers(){
-        let appDelegate =
-            UIApplication.sharedApplication().delegate as! AppDelegate
-        
-        let managedContext = appDelegate.managedObjectContext
-        
-        
-        let fetchRequest = NSFetchRequest(entityName: "Users")
-        
-        
-        do {
-            let fetchResults =
-                try managedContext.executeFetchRequest(fetchRequest)
-            if fetchResults.count != 0{
-                print(fetchResults)
-            }
-            
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
-        }
-    }
-    
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        if segue.identifier == "loginSegue" {
-            let destination = segue.destinationViewController as? UITabBarController
-        }
-        
     }
 }
+
 

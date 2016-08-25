@@ -114,18 +114,6 @@ class contributorViewController: UITableViewController {
                     
         
                 }
-                
-                //debugPrint("AALMAOFIRE  \n")
-                //debugPrint(self.contributors)
-                
-                //for managedObject in deleteresults as! [AnyObject]
-                //{
-                    
-                //    let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
-                 //   managedContext.deleteObject(managedObjectData)
-                //}
-                //debugPrint("delete old contributor")
-                //debugPrint(self.contributors)
                 self.displayTable()
                 
         }
@@ -142,17 +130,7 @@ class contributorViewController: UITableViewController {
                 UIApplication.sharedApplication().delegate as! AppDelegate
             
             let managedContext = appDelegate.managedObjectContext
-            
-            //2
             let fetchRequest = NSFetchRequest(entityName: "Contributors")
-//            do {
-//                let results =
-//                    try managedContext.executeFetchRequest(fetchRequest)
-//                let res = results
-//                print(res.valueForKey("contributorsName").array)
-//                
-//            }catch{
-//            }
             fetchRequest.predicate = NSPredicate(format: " repository.repositoryName CONTAINS %@", self.repository)
             
             //3
@@ -173,31 +151,9 @@ class contributorViewController: UITableViewController {
     }
     
     
-//    func deleteAllData(entity: String) -> AnyObject
-//    {
-//        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-//        let managedContext = appDelegate.managedObjectContext
-//        let fetchRequest = NSFetchRequest(entityName: entity)
-//        fetchRequest.predicate = NSPredicate(format: "Any repository.repositoryName == %@", self.repository)
-//        fetchRequest.returnsObjectsAsFaults = false
-//        
-//        do
-//        {
-//            let results = try managedContext.executeFetchRequest(fetchRequest)
-//            return results
-//            
-//        } catch let error as NSError {
-//            print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
-//        }
-//        return 0
-//    }
-    
-    
-    
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -207,21 +163,37 @@ class contributorViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("contributorPrototype") as! contributorCells
+        cell.contributorCellBoundary.layer.shadowColor = UIColor.blackColor().CGColor
+        cell.contributorCellBoundary.layer.shadowOpacity = 0.5
+        cell.contributorCellBoundary.layer.shadowOffset = CGSizeZero
+        cell.contributorCellBoundary.layer.shadowRadius = 1
         // Set the first row text label to the firstRowLabel data in our current array item
         dispatch_async(dispatch_get_main_queue(), {
             
             
             cell.contributorsName.text = self.contributors[indexPath.row].valueForKey("contributorsName") as? String
             cell.contributions.text = self.contributors[indexPath.row].valueForKey("contributions") as? String
+            
             let URL = NSURL(string: (self.contributors[indexPath.row].valueForKey("avatarUrl") as? String)!)
             let placeholderImage = UIImage(named: "tabbutton.png")!
-            
             cell.contributorImage.af_setImageWithURL(URL!, placeholderImage: placeholderImage)
+            
+            self.circularImageView(cell.contributorImage)
+            
             
             
         })
         // Return our new cell for display
         return cell
+        
+    }
+    
+    func circularImageView(imageView : UIImageView){
+        imageView.layer.borderWidth = 1.0
+        imageView.layer.masksToBounds = false
+        imageView.layer.borderColor = UIColor.blackColor().CGColor
+        imageView.layer.cornerRadius = imageView.frame.size.width/2
+        imageView.clipsToBounds = true
         
     }
 
