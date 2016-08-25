@@ -20,13 +20,24 @@ class RepositoryViewController: UITableViewController {
         UIApplication.sharedApplication().delegate as! AppDelegate
     
     
-//-------------------------- LOGOUT FUNCTION ------------------------------
+//-------------------------- LOGOUT FUNCTIONS ------------------------------
+    
     @IBAction func logoutAction(sender: AnyObject) {
+        showAlertForLogOut()
         
-        KeychainHandler().removeAuthToken()
-        DatabaseHandler().changeCurrentUser()
-        self.appDelegate.resetAppToFirstController()
     }
+    
+    func showAlertForLogOut() {
+        let alert = UIAlertController(title: "Caution!", message: "Are you sure you want to Logout ?", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { action in
+            KeychainHandler().removeAuthToken()
+            DatabaseHandler().changeCurrentUser()
+            self.appDelegate.resetAppToFirstController()
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel , handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
 
 //------------------- Favourite Button Click Function ----------------------
     @IBAction func favButtonClicked(sender: AnyObject) {
@@ -49,6 +60,7 @@ class RepositoryViewController: UITableViewController {
         
     }
     
+
     
     func getRepositories(){
         let username = currentUser().valueForKey("username") as! String
@@ -57,9 +69,11 @@ class RepositoryViewController: UITableViewController {
         Alamofire.request(.GET, "https://api.github.com/users/\(currentUser().valueForKey("username") as! String)/repos", parameters: [:], headers: headers)
             .responseJSON { response in
                 
-                let json = JSON(response.result.value!)
                 
-                for item in json.arrayValue {
+                switch response.result {
+                case let .Success(successvalue):
+                    let json = JSON(response.result.value!)
+                    for item in json.arrayValue {
                     
                     let name = item["name"].stringValue
                     let descriptionRepo = item["description"].stringValue
@@ -115,7 +129,7 @@ class RepositoryViewController: UITableViewController {
                     repo.setValue(descriptionRepo, forKey: "descriptionRepo")
                     repo.setValue(avatarUrl, forKey: "avatarUrl")
                     repo.setValue(NSSet(object : self.currentUser()), forKey: "users")
-                                       //4
+                    //4
                     do {
                         try managedContext.save()
                     } catch let error as NSError  {
@@ -123,8 +137,11 @@ class RepositoryViewController: UITableViewController {
                     }
                     
                 }
-               self.displayData()
-            
+                self.displayData()
+            case let .Failure(errorvalue):
+                    self.refreshControl!.endRefreshing()
+                    print(errorvalue)
+            }
         }
     }
     

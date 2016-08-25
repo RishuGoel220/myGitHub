@@ -132,6 +132,7 @@ class RepositoryDetailsController: UITableViewController {
                 setBoundary(cell.contributorCellBoundary)
                 let URL = NSURL(string: (self.contributors[indexPath.row-4].valueForKey("avatarUrl") as? String)!)
                 let placeholderImage = UIImage(named: "tabbutton.png")!
+                cell.contributorImage.contentMode = UIViewContentMode.ScaleAspectFit
                 cell.contributorImage.af_setImageWithURL(URL!, placeholderImage: placeholderImage)
                 return cell
             
@@ -218,72 +219,77 @@ class RepositoryDetailsController: UITableViewController {
         let headers = ["Authorization": "bearer \(keychain["Auth_token"]! as String)"]
         Alamofire.request(.GET, "https://api.github.com/repos/\(RepositoryViewController().currentUser().valueForKey("username") as! String)/"+self.repositoryName+"/contributors", parameters: [:], headers: headers)
             .responseJSON { response in
-                let json = JSON(response.result.value!)
-                
-                let appDelegate =
-                    UIApplication.sharedApplication().delegate as! AppDelegate
-                
-                let managedContext = appDelegate.managedObjectContext
-                
-                let fetchRequest = NSFetchRequest(entityName: "Repositories")
-                fetchRequest.predicate = NSPredicate(format: "repositoryName == %@ and users CONTAINS %@", self.repositoryName, DatabaseHandler().currentUser())
-                
-                
-                
-                for item in json.arrayValue {
-                    let name = item["login"].stringValue
-                    let contributions = item["contributions"].stringValue
-                    let avatarUrl = item["avatar_url"].stringValue
-                    print(contributions)
-                    print("hi")
-                    //3
+                switch response.result {
+                case let .Success(successvalue):
                     
-                    do {
+                    let json = JSON(response.result.value!)
+                    let appDelegate =
+                        UIApplication.sharedApplication().delegate as! AppDelegate
+                    
+                    let managedContext = appDelegate.managedObjectContext
+                    
+                    let fetchRequest = NSFetchRequest(entityName: "Repositories")
+                    fetchRequest.predicate = NSPredicate(format: "repositoryName == %@ and users CONTAINS %@", self.repositoryName, DatabaseHandler().currentUser())
+                    
+                    
+                    
+                    for item in json.arrayValue {
+                        let name = item["login"].stringValue
+                        let contributions = item["contributions"].stringValue
+                        let avatarUrl = item["avatar_url"].stringValue
+                        print(contributions)
+                        print("hi")
+                        //3
                         
-                        let results =
-                            try managedContext.executeFetchRequest(fetchRequest)
-                        
-                        // check for duplicate
-                        
-                        let fetchRequest = NSFetchRequest(entityName: "Contributors")
-                        fetchRequest.predicate = NSPredicate(format: "contributorsName == %@ and repository == %@ ", name, results[0] as! NSManagedObject)
                         do {
-                            let fetchResults =
+                            
+                            let results =
                                 try managedContext.executeFetchRequest(fetchRequest)
-                            if fetchResults.count != 0{
-                                fetchResults[0].setValue(contributions, forKey: "contributions")
-                                fetchResults[0].setValue(avatarUrl, forKey: "avatarUrl")
-                                try managedContext.save()
-                                continue
+                            
+                            // check for duplicate
+                            
+                            let fetchRequest = NSFetchRequest(entityName: "Contributors")
+                            fetchRequest.predicate = NSPredicate(format: "contributorsName == %@ and repository == %@ ", name, results[0] as! NSManagedObject)
+                            do {
+                                let fetchResults =
+                                    try managedContext.executeFetchRequest(fetchRequest)
+                                if fetchResults.count != 0{
+                                    fetchResults[0].setValue(contributions, forKey: "contributions")
+                                    fetchResults[0].setValue(avatarUrl, forKey: "avatarUrl")
+                                    try managedContext.save()
+                                    continue
+                                }
+                                
                             }
                             
+                            
+                            // if not present add
+                            let entity =  NSEntityDescription.entityForName("Contributors",
+                                inManagedObjectContext:managedContext)
+                            
+                            let contribute = NSManagedObject(entity: entity!,
+                                insertIntoManagedObjectContext: managedContext)
+                            
+                            contribute.setValue(results[0], forKey: "repository")
+                            contribute.setValue(name, forKey: "contributorsName")
+                            contribute.setValue(contributions, forKey:"contributions")
+                            contribute.setValue(avatarUrl, forKey: "avatarUrl")
+                            
+                            do {
+                                try managedContext.save()
+                            } catch let error as NSError  {
+                                print("Could not save \(error), \(error.userInfo)")
+                            }
+                        } catch let error as NSError {
+                            print("Could not fetch \(error), \(error.userInfo)")
                         }
                         
                         
-                        // if not present add
-                        let entity =  NSEntityDescription.entityForName("Contributors",
-                            inManagedObjectContext:managedContext)
-                        
-                        let contribute = NSManagedObject(entity: entity!,
-                            insertIntoManagedObjectContext: managedContext)
-                        
-                        contribute.setValue(results[0], forKey: "repository")
-                        contribute.setValue(name, forKey: "contributorsName")
-                        contribute.setValue(contributions, forKey:"contributions")
-                        contribute.setValue(avatarUrl, forKey: "avatarUrl")
-                        
-                        do {
-                            try managedContext.save()
-                        } catch let error as NSError  {
-                            print("Could not save \(error), \(error.userInfo)")
-                        }
-                    } catch let error as NSError {
-                        print("Could not fetch \(error), \(error.userInfo)")
                     }
-                    
-                    
-                }
-                self.displayTable()
+                    self.displayTable()
+                case let .Failure(errorValue) :
+                    print(errorValue)
+            }
                 
         }
     }

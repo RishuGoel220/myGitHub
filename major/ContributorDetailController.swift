@@ -18,7 +18,11 @@ class ContributorDetailController: UIViewController {
     @IBOutlet weak var linesAddedLabel: UILabel!
     @IBOutlet weak var contributorNameLabel: UILabel!
     @IBOutlet weak var contributorImage: UIImageView!
-    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
+    @IBOutlet weak var fixedCommitsLabel: UILabel!
+    @IBOutlet weak var fixedLinesDeletedLabel: UILabel!
+    @IBOutlet weak var fixedLinesAddedLabel: UILabel!
 //----------- Global variables to store data ---------------
     var repositoryName = ""
     var contributorName = ""
@@ -27,28 +31,31 @@ class ContributorDetailController: UIViewController {
     
     
     override func viewDidLoad() {
+        
         APIcaller().getContributorStats(repositoryName, username: self.username ){
-            
             (responseBool)-> Void in
+            
             if responseBool == true {
                 super.viewDidLoad()
+                self.activityIndicator.stopAnimating()
+                self.activityIndicator.hidden = true
+                self.fixedCommitsLabel.hidden = false
+                self.fixedLinesAddedLabel.hidden = false
+                self.fixedLinesDeletedLabel.hidden = false
                 self.displaydata()
+                
             }
             
         }
         
     }
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        activityIndicator.startAnimating()
+        fixedCommitsLabel.hidden = true
+        fixedLinesAddedLabel.hidden = true
+        fixedLinesDeletedLabel.hidden = true
         
-        APIcaller().getContributorStats(repositoryName, username: self.username ){
-            
-            (responseBool)-> Void in
-            if responseBool == true {
-                super.viewWillAppear(animated)
-                self.displaydata()
-            }
-            
-        }
     }
     
     func displaydata(){

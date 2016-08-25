@@ -64,6 +64,7 @@ class APIcaller{
     }
     
     
+//--------------------- API call to get Issues count of repository -------------------
     
     func getIssueCount(repositoryName : String, username : String, result: (Issues: [Int])-> Void) {
         var openIssueCount : Int = 0
@@ -73,22 +74,30 @@ class APIcaller{
         Alamofire.request(.GET, "https://api.github.com/repos/\(username)/\(repositoryName)/issues", parameters: [:],headers: headers)
             .responseJSON { response in
                 
-                let json = JSON(response.result.value!)
-                for item in json.arrayValue {
-                    if item["state"] == "open"{
-                        openIssueCount = openIssueCount + 1
-                    }
-                    else{
-                        closedIssueCount = closedIssueCount + 1
-                    }
+                switch response.result {
+                case let .Success(successvalue):
+                    let json = JSON(successvalue)
                     
+                    for item in json.arrayValue {
+                        if item["state"] == "open"{
+                            openIssueCount = openIssueCount + 1
+                        }
+                        else{
+                            closedIssueCount = closedIssueCount + 1
+                        }
+                        
+                        
+                    }
+                    result(Issues: [openIssueCount, closedIssueCount])
+                case let .Failure(errorvalue):
+                    print(errorvalue)
                 }
-                result(Issues: [openIssueCount, closedIssueCount])
+                
         }
     }
     
     
-    
+//--------------------- API call to get Pull request count of repository -------------------
     func getPRCount(repositoryName : String, username : String, result: (PR: [Int])->Void){
         
         var openPRCount : Int = 0
@@ -98,25 +107,30 @@ class APIcaller{
         Alamofire.request(.GET, "https://api.github.com/repos/\(username)/\(repositoryName)/issues", parameters: [:], headers: headers)
             .responseJSON { response in
                 
-                let json = JSON(response.result.value!)
-                
-                for item in json.arrayValue {
-                    if item["state"] == "open"{
-                        openPRCount = openPRCount + 1
-                    }
-                    else{
-                        mergedPRCount = mergedPRCount + 1
-                    }
+                switch response.result {
+                case let .Success(successvalue):
+                    let json = JSON(successvalue)
                     
-                    
+                    for item in json.arrayValue {
+                        if item["state"] == "open"{
+                            openPRCount = openPRCount + 1
+                        }
+                        else{
+                            mergedPRCount = mergedPRCount + 1
+                        }
+                        
+                        
+                    }
+                    result(PR: [openPRCount, mergedPRCount])
+                case let .Failure(errorvalue):
+                    print(errorvalue)
                 }
-                result(PR: [openPRCount, mergedPRCount])
                 
         }
         
     }
     
-    
+//--------------------- API call to get commit count of repository ---------------------------
     func getCommitCount(repositoryName : String, username : String, commitcount: (Int)->Void){
         var commitCount : Int = 0
         
@@ -125,14 +139,18 @@ class APIcaller{
         Alamofire.request(.GET, "https://api.github.com/repos/\(username)/\(repositoryName)/issues", parameters: [:], headers: headers)
             .responseJSON { response in
                 
-                let json = JSON(response.result.value!)
-                
-                for item in json.arrayValue {
-                    commitCount = commitCount + item["total"].intValue
+                switch response.result {
+                case let .Success(successvalue):
+                    let json = JSON(successvalue)
                     
-                    
+                    for item in json.arrayValue {
+                        commitCount = commitCount + item["total"].intValue
+                    }
+                    commitcount(commitCount)
+                case let .Failure(errorvalue):
+                    print(errorvalue)
                 }
-                commitcount(commitCount)                
+                
         }
         
     }

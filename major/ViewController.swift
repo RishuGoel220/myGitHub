@@ -33,6 +33,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func loginButtonPressed(sender: UIButton) {
+        usernameTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
         loginAction(otpTextField.text!)
     }
 
@@ -41,21 +43,21 @@ class ViewController: UIViewController {
         
         guard usernameTextField.text?.characters.count > 0 || passwordTextField.text?.characters.count > 0 else {
             showValidationAlertWithMessage("Username and Password cannot be left blank")
+            //usernameTextField.becomeFirstResponder()
             return
         }
         
         guard usernameTextField.text?.characters.count > 0 else {
             showValidationAlertWithMessage("Please Enter Username")
+            //usernameTextField.becomeFirstResponder()
             return
         }
         
         guard passwordTextField.text?.characters.count > 0 else {
+            //passwordTextField.resignFirstResponder()
             showValidationAlertWithMessage("Please Enter Password")
             return
         }
-
-        usernameTextField.resignFirstResponder()
-        passwordTextField.resignFirstResponder()
 
         // if username and password is filled
         startActivityIndicator()
@@ -63,7 +65,7 @@ class ViewController: UIViewController {
         self.apiCaller.login(usernameTextField.text!, password: passwordTextField.text!, otp: otpField)
         { jsondata, response in
             
-            self.activityIndicator.hidden = true
+            self.stopActivityIndicator()
 
             switch response.result {
             case let .Success(successValue) :

@@ -18,30 +18,28 @@ public class DatabaseHandler {
         UIApplication.sharedApplication().delegate as! AppDelegate
     
     
-    
+//---------------- Add the extra Stats for the conributor to database ------------------
     public func addContributorStats(repositoryName : String, contributorName : String, linesAdded : Int, linesDeleted : Int, commits : Int){
-        let appDelegate =
-            UIApplication.sharedApplication().delegate as! AppDelegate
         
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         let fetchRequest = NSFetchRequest(entityName: "Repositories")
         fetchRequest.predicate = NSPredicate(format: "repositoryName == %@ and users CONTAINS %@",repositoryName, self.currentUser())
         
         do {
             
-                let results =
-                    try managedContext.executeFetchRequest(fetchRequest)
+                let repositories = try managedContext.executeFetchRequest(fetchRequest) as? [Repositories]
                 
                 // check for duplicate
                 
                 let fetchRequest = NSFetchRequest(entityName: "Contributors")
-                fetchRequest.predicate = NSPredicate(format: "contributorsName == %@ and repository == %@ ", contributorName, results[0] as! NSManagedObject)
-                let fetchResults =
-                    try managedContext.executeFetchRequest(fetchRequest)
-                if fetchResults.count != 0{
-                    fetchResults[0].setValue(linesAdded, forKey: "linesAdded")
-                    fetchResults[0].setValue(linesDeleted, forKey: "linesDeleted")
-                    fetchResults[0].setValue(commits, forKey: "commits")
+                fetchRequest.predicate = NSPredicate(format: "contributorsName == %@ and repository == %@ ", contributorName, (repositories?.first)!)
+                let contributors =
+                    try managedContext.executeFetchRequest(fetchRequest) as? [Contributors]
+                if let contributor = contributors?.first{
+                    contributor.linesAdded = linesAdded
+                    contributor.linesDeleted = linesDeleted
+                    contributor.commits = commits
                     try managedContext.save()
                 }
                 
@@ -50,25 +48,25 @@ public class DatabaseHandler {
         }        
     }
     
+//------------------- Change Favourite Field in Database ---------------------------------
+    
     public func changeIsFavouriteState(repositoryName : String){
-        
         let managedContext = appDelegate.managedObjectContext
         let fetchRequest = NSFetchRequest(entityName: "Repositories")
         fetchRequest.predicate = NSPredicate(format: "repositoryName = %@ and users CONTAINS %@",repositoryName, self.currentUser())
         
         
         do {
-            let fetchResults =
-                try appDelegate.managedObjectContext.executeFetchRequest(fetchRequest)
-            if fetchResults.count != 0{
+            let repository =
+                try appDelegate.managedObjectContext.executeFetchRequest(fetchRequest) as? [Repositories]
+            if let currentRepository = repository?.first{
                 
-                let managedObject = fetchResults[0]
-                let boolvalue = fetchResults[0].valueForKey("isFavourite") as? String
-                if boolvalue=="false" {
-                    managedObject.setValue("true", forKey: "isFavourite")
+                let boolvalue = "\(currentRepository.isFavourite!)"
+                if boolvalue == "false" {
+                    currentRepository.isFavourite = "true"
                 }
                 else{
-                    managedObject.setValue("false", forKey: "isFavourite")
+                    currentRepository.isFavourite = "false"
                 }
                 try managedContext.save()
             }
@@ -101,36 +99,30 @@ public class DatabaseHandler {
         let managedContext = appDelegate.managedObjectContext
         let fetchRequest = NSFetchRequest(entityName: "Users")
         fetchRequest.predicate = NSPredicate(format: "username = %@", username)
-        
-        
+
         do {
-            let fetchResults =
-                try managedContext.executeFetchRequest(fetchRequest)
-            if fetchResults.count != 0{
-                let managedObject = fetchResults[0]
-                managedObject.setValue("yes", forKey: "current")
+            let users =
+                try managedContext.executeFetchRequest(fetchRequest) as? [Users]
+            guard let user = users?.first where users?.count > 0 else{
+                // Add new user if user doesnt exist
+                let entity =  NSEntityDescription.entityForName("Users",inManagedObjectContext:managedContext)
+                let user = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+                user.setValue(username, forKey: "username")
+                user.setValue("yes", forKey: "current")
                 try managedContext.save()
                 return
             }
+            // if user exist set it to current User
+            user.current = "yes"
+            try managedContext.save()
             
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
         }
-        
-        let entity =  NSEntityDescription.entityForName("Users",inManagedObjectContext:managedContext)
-        let user = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
-        user.setValue(username, forKey: "username")
-        user.setValue("yes", forKey: "current")
-        
-        do {
-            try managedContext.save()
-        } catch let error as NSError  {
-            print("Could not save \(error), \(error.userInfo)")
-        }
     
     }
     
-    
+//-------------------- Give the object of current User -----------------------------
     func currentUser()-> NSManagedObject{
         
         let managedContext = appDelegate.managedObjectContext
@@ -138,10 +130,10 @@ public class DatabaseHandler {
         fetchRequest.predicate = NSPredicate(format: "current = \"yes\"")
         
         do {
-            let fetchResults =
-                try managedContext.executeFetchRequest(fetchRequest)
-            let managedObject = fetchResults[0]
-            return managedObject as! NSManagedObject
+            let user =
+                try managedContext.executeFetchRequest(fetchRequest) as? [Users]
+            let currentUser = user?.first
+            return currentUser!
             
             
         } catch let error as NSError {
