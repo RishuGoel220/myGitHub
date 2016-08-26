@@ -205,6 +205,11 @@
                                 <action selector="logoutAction:" destination="6Tq-tf-aew" id="lnq-fK-mls"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="yyk-0m-HxD">
+                            <connections>
+                                <action selector="searchBar:" destination="6Tq-tf-aew" id="Icu-uD-FUA"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g8D-7z-fOG" userLabel="First Responder" sceneMemberID="firstResponder"/>

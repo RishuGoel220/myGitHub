@@ -150,11 +150,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "246"
-            endingLineNumber = "246"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
             landmarkName = "login(_:password:otp:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -182,11 +182,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "292"
-            endingLineNumber = "292"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
             landmarkName = "APIcaller"
             landmarkType = "3">
          </BreakpointContent>
@@ -198,11 +198,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "289"
-            endingLineNumber = "289"
+            startingLineNumber = "291"
+            endingLineNumber = "291"
             landmarkName = "APIcaller"
             landmarkType = "3">
          </BreakpointContent>
@@ -214,11 +214,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "291"
-            endingLineNumber = "291"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
             landmarkName = "APIcaller"
             landmarkType = "3">
             <Locations>
@@ -262,11 +262,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
+            startingLineNumber = "251"
+            endingLineNumber = "251"
             landmarkName = "login(_:password:otp:completion:)"
             landmarkType = "5">
             <Locations>
@@ -310,11 +310,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/RepositoryViewController.swift"
-            timestampString = "493848142.856295"
+            timestampString = "493896424.770351"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -390,11 +390,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "242"
-            endingLineNumber = "242"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
             landmarkName = "login(_:password:otp:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1318,11 +1318,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
             landmarkName = "getContributorStats(_:username:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1334,11 +1334,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
             landmarkName = "getContributorStats(_:username:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1350,11 +1350,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
             landmarkName = "getContributorStats(_:username:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1398,11 +1398,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
             landmarkName = "getContributorStats(_:username:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1414,11 +1414,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "141"
-            endingLineNumber = "141"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
             landmarkName = "getContributorStats(_:username:completion:)"
             landmarkType = "5">
             <Locations>
@@ -1462,11 +1462,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
             landmarkName = "getContributorStats(_:username:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1478,11 +1478,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
             landmarkName = "getContributorStats(_:username:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1494,11 +1494,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
             landmarkName = "getContributorStats(_:username:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1510,11 +1510,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/DatabaseHandler.swift"
-            timestampString = "493886932.931659"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "233"
-            endingLineNumber = "233"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
             landmarkName = "addContributorStats(_:contributorName:linesAdded:linesDeleted:commits:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1526,11 +1526,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/DatabaseHandler.swift"
-            timestampString = "493886932.931659"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "236"
-            endingLineNumber = "236"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
             landmarkName = "addContributorStats(_:contributorName:linesAdded:linesDeleted:commits:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1574,11 +1574,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/DatabaseHandler.swift"
-            timestampString = "493886932.931659"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "260"
-            endingLineNumber = "260"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
             landmarkName = "changeIsFavouriteState(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1590,11 +1590,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/DatabaseHandler.swift"
-            timestampString = "493886932.931659"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "261"
-            endingLineNumber = "261"
+            startingLineNumber = "266"
+            endingLineNumber = "266"
             landmarkName = "changeIsFavouriteState(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1606,11 +1606,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
             landmarkName = "getPRCount(_:username:result:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1622,11 +1622,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
             landmarkName = "getContributorStats(_:username:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1638,11 +1638,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "getContributorStats(_:username:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1654,11 +1654,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "getContributorStats(_:username:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1670,11 +1670,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "getContributorStats(_:username:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1702,11 +1702,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "248"
-            endingLineNumber = "248"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
             landmarkName = "login(_:password:otp:completion:)"
             landmarkType = "5">
             <Locations>
@@ -1766,11 +1766,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
             landmarkName = "getContributorStats(_:username:completion:)"
             landmarkType = "5">
             <Locations>
@@ -1782,11 +1782,11 @@
                   moduleName = "major"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/rishugoel/Desktop/IOSdev/major/major/APIcaller.swift"
-                  timestampString = "493888938.683926"
+                  timestampString = "493896091.549355"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "110"
-                  endingLineNumber = "110"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
                   offsetFromSymbolStart = "476">
                </Location>
                <Location
@@ -1797,11 +1797,11 @@
                   moduleName = "major"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/rishugoel/Desktop/IOSdev/major/major/APIcaller.swift"
-                  timestampString = "493888938.684032"
+                  timestampString = "493896091.550165"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "112"
-                  endingLineNumber = "112"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
                   offsetFromSymbolStart = "24">
                </Location>
             </Locations>
@@ -1830,11 +1830,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888404.492234"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "getContributorStats(_:username:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1846,11 +1846,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493888210.030366"
+            timestampString = "493892255.228332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
             landmarkName = "getContributorStats(_:username:completion:)"
             landmarkType = "5">
          </BreakpointContent>

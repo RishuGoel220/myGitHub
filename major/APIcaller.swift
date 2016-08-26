@@ -63,7 +63,6 @@ class APIcaller{
     
     
     
-    
 //-------------------------------- API call for fetching the extra contributor Details -----------------------------
     func getContributorStats(repositoryName: String, username: String, completion: (responseBool: Bool) -> Void){
         
