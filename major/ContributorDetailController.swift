@@ -23,6 +23,7 @@ class ContributorDetailController: UIViewController {
     @IBOutlet weak var fixedCommitsLabel: UILabel!
     @IBOutlet weak var fixedLinesDeletedLabel: UILabel!
     @IBOutlet weak var fixedLinesAddedLabel: UILabel!
+
 //----------- Global variables to store data ---------------
     var repositoryName = ""
     var contributorName = ""
@@ -39,46 +40,56 @@ class ContributorDetailController: UIViewController {
                 super.viewDidLoad()
                 self.activityIndicator.stopAnimating()
                 self.activityIndicator.hidden = true
-                self.fixedCommitsLabel.hidden = false
-                self.fixedLinesAddedLabel.hidden = false
-                self.fixedLinesDeletedLabel.hidden = false
+                self.showLabels()
                 self.displaydata()
                 
+            }
+            if responseBool == false {
+                super.viewDidLoad()
+                self.activityIndicator.stopAnimating()
+                self.activityIndicator.hidden = true
+                self.showAlertNoResponse()
             }
             
         }
         
     }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         activityIndicator.startAnimating()
+        hideLabels()
+    
+    }
+    
+    func showAlertNoResponse() {
+        let alert = UtilityHandler().showAlertWithSingleButton("Caution!", message: "There might be some issue with the internet ")
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func hideLabels(){
+        contributorNameLabel.hidden = true
         fixedCommitsLabel.hidden = true
         fixedLinesAddedLabel.hidden = true
         fixedLinesDeletedLabel.hidden = true
         
     }
     
+    func showLabels(){
+        self.contributorNameLabel.hidden = false
+        self.fixedCommitsLabel.hidden = false
+        self.fixedLinesAddedLabel.hidden = false
+        self.fixedLinesDeletedLabel.hidden = false
+    }
+    
     func displaydata(){
-        let appDelegate =
-            UIApplication.sharedApplication().delegate as! AppDelegate
-        
-        let managedContext = appDelegate.managedObjectContext
-        
-        let fetchRequest = NSFetchRequest(entityName: "Contributors")
-        fetchRequest.predicate = NSPredicate(format: "contributorsName == %@ and repository.repositoryName == %@ ", contributorName, repositoryName)
-        
-        do {
-
-            let contributors = try managedContext.executeFetchRequest(fetchRequest) as? [Contributors]
-            
-            if let currentContributor = contributors?.first {
-                
+                let currentContributor = DatabaseHandler().fetchContributorByName(contributorName, repositoryName: repositoryName).first!
                 linesAddedLabel.text = "\(currentContributor.linesAdded!.integerValue)"
                 linesDeletedLabel.text = "\(currentContributor.linesDeleted!.integerValue)"
                 commitsLabel.text = "\(currentContributor.commits!.integerValue)"
                 contributorNameLabel.text = currentContributor.contributorsName
                 
-                let placeholderImage = UIImage(named: "tabbutton.png")!
+                let placeholderImage = UIImage(named: "tabbutton")!
                 contributorImage.contentMode = UIViewContentMode.ScaleAspectFit
 
                 if let avatarURL = currentContributor.avatarUrl ,
@@ -87,16 +98,8 @@ class ContributorDetailController: UIViewController {
                 } else {
                     contributorImage.image = placeholderImage
                 }
-                
-            }
-            
-        }catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
-        }
-        
-        
-        
-        
+    
+    
     }
     
     override func didReceiveMemoryWarning() {

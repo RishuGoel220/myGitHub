@@ -12,14 +12,12 @@ import KeychainAccess
 
 public class KeychainHandler{
     
+
     
+//-------------- Function to check if there exists a token -------------------------
     func hasAuthToken()->Bool{
-        
-        
         let keychain = Keychain(service: "com.example.Practo.major")
         let AUTH_TOKEN = keychain["Auth_token"]
-        
-        debugPrint(AUTH_TOKEN)
         if AUTH_TOKEN == nil || AUTH_TOKEN==""{
             return false
         }
@@ -28,6 +26,13 @@ public class KeychainHandler{
         }
     }
     
+//----------------------- Function to get the token ---------------------------------
+    func getAuthToken()-> String {
+        let keychain = Keychain(service: "com.example.Practo.major")
+        return (keychain["Auth_token"]! as String)
+    }
+    
+//----------------------- Function to remove the token ------------------------------
     func removeAuthToken(){
         let keychain = Keychain(service: "com.example.Practo.major")
         do {

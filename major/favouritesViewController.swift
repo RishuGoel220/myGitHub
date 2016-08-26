@@ -14,8 +14,7 @@ class favouritesViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        displayData()
-        
+        displayData()  
     }
     
     
@@ -23,40 +22,13 @@ class favouritesViewController: UITableViewController {
         super.viewWillAppear(animated)
          displayData()
     }
-    
-    
-    
-    
-    func displayData(){
-        dispatch_async(dispatch_get_main_queue(), {
-            let appDelegate =
-                UIApplication.sharedApplication().delegate as! AppDelegate
-            
-            let managedContext = appDelegate.managedObjectContext
-            
-            //2
-            let fetchRequest = NSFetchRequest(entityName: "Repositories")
-            fetchRequest.predicate = NSPredicate(format: "isFavourite == %@ and users CONTAINS %@", "true", RepositoryViewController().currentUser())
-            //3
-            do {
-                let results =
-                    try managedContext.executeFetchRequest(fetchRequest)
-                self.repositories = results as! [NSManagedObject]
-                self.tableView.reloadData()
-            } catch let error as NSError {
-                print("Could not fetch \(error), \(error.userInfo)")
-            }
-            
-            
-        })
-    }
 
     
-    
-    
-    
-    
-    
+    func displayData(){
+        self.repositories = DatabaseHandler().fetchFavouriteRepositories()
+        self.tableView.reloadData()
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -65,11 +37,13 @@ class favouritesViewController: UITableViewController {
         return repositories.count
         
     }
+    
     override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
         let message = "Description : \(self.repositories[indexPath.row].valueForKey("descriptionRepo") as! String)"
         let alert = UIAlertView(title: "\(self.repositories[indexPath.row].valueForKey("repositoryName") as! String) ", message: message, delegate: self, cancelButtonTitle: "OK")
         alert.show()
     }
+    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("favouritePrototype") as! favouriteCells

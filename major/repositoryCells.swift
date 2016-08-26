@@ -16,6 +16,4 @@ class repositoryCells: UITableViewCell {
     @IBOutlet weak var repositoryImage: UIImageView!
     
     @IBOutlet weak var view: UIView!
-    
-    
 }

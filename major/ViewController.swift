@@ -63,7 +63,7 @@ class ViewController: UIViewController {
         startActivityIndicator()
         
         self.apiCaller.login(usernameTextField.text!, password: passwordTextField.text!, otp: otpField)
-        { jsondata, response in
+        { response in
             
             self.stopActivityIndicator()
 
@@ -71,7 +71,6 @@ class ViewController: UIViewController {
             case let .Success(successValue) :
                 let successjsonData = JSON(successValue)
                 guard let messageString = successjsonData.dictionaryValue["message"]?.stringValue where messageString.characters.count > 0 else {
-                    print(successjsonData)
                     DatabaseHandler().addUser(self.usernameTextField.text!)
                     self.performSegueWithIdentifier("loginSegue", sender: self)
                     return
@@ -81,11 +80,8 @@ class ViewController: UIViewController {
                     self.showErrorAlertWithMessage(messageString)
                     return
                 }
-
-                self.otpTextField.hidden = false
-                self.usernameTextField.hidden = true
-                self.passwordTextField.hidden = true
-                self.otpTextField.resignFirstResponder()
+                self.viewSetupForOTP()
+                
                 
             case let .Failure(errorValue) :
                 print(errorValue)
@@ -95,19 +91,27 @@ class ViewController: UIViewController {
         }
     }
     
+    
+    func viewSetupForOTP(){
+        self.otpTextField.hidden = false
+        self.usernameTextField.hidden = true
+        self.passwordTextField.hidden = true
+        self.otpTextField.resignFirstResponder()
+        
+    }
+    
     func showErrorAlertWithMessage(message: String?) {
         let messageString = message ?? "Something Went Wrong"
-        showAlert("Invalid", "Error : \(messageString)")
+        let alert = UtilityHandler().showAlertWithSingleButton("Invalid", message: "Error : \(messageString)")
+        self.presentViewController(alert, animated: true, completion: nil)
+        
     }
     
     func showValidationAlertWithMessage(message: String?) {
-        showAlert("Invalid", message)
+        let alert = UtilityHandler().showAlertWithSingleButton("Invalid", message: message!)
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func showAlert(title: String? = nil, _ message: String? = nil) {
-        let alert = UIAlertView(title: title, message: message, delegate: nil, cancelButtonTitle: "OK")
-        alert.show()
-    }
 
 
     override func viewDidLoad() {
@@ -148,7 +152,7 @@ class ViewController: UIViewController {
         let width = UIScreen.mainScreen().bounds.size.width
         let height = UIScreen.mainScreen().bounds.size.height
         let imageViewBackground = UIImageView(frame: CGRectMake(0, 0, width, height))
-        imageViewBackground.image = UIImage(named: "backgroundLogin2.png")
+        imageViewBackground.image = UIImage(named: "backgroundLogin2")
         
         // you can change the content mode:
         imageViewBackground.contentMode = UIViewContentMode.ScaleAspectFill

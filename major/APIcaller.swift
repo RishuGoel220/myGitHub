@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 import KeychainAccess
+import CoreData
 
 class APIcaller{
     
@@ -17,13 +18,57 @@ class APIcaller{
     let API_URL = "https://api.github.com/"
     let CLIENT_SECRET = "c0ea6710c59e4c4a26d7b875f34eab2c66f27e52"
     let CLIENT_ID = "85a3f37ae5540cdc80f2"
-    var AUTH_TOKEN :String = ""
     
     
+// MARK: API functions for Contributor Data
+//-------------------------------- API call for fetching contributors and putting it in database -----------------------------
+    func getContributors(repositoryName: String, completion: (result:Bool)-> Void){
+        
+        let headers = ["Authorization": "bearer \(KeychainHandler().getAuthToken())"]
+        
+        Alamofire.request(.GET, "https://api.github.com/repos/\(DatabaseHandler().currentUser().valueForKey("username") as! String)/"+repositoryName+"/contributors", parameters: [:], headers: headers)
+            .responseJSON { response in
+                
+                
+                switch response.result {
+                case let .Success(successvalue):
+                    
+                    let json = JSON(successvalue)
+                    for item in json.arrayValue {
+                        
+                        let contributorName = item["login"].stringValue
+                        let contributions = item["contributions"].stringValue
+                        let avatarUrl = item["avatar_url"].stringValue
+                        
+                        let contributors = DatabaseHandler().fetchContributorByName(contributorName, repositoryName: repositoryName)
+                        
+                        if contributors.count != 0{
+                            DatabaseHandler().updateExistingContributor(contributorName, repositoryName: repositoryName, Url: avatarUrl,contributions: contributions)
+                            continue
+                        }
+                        else{
+                            DatabaseHandler().AddNewContributor(contributorName, repositoryName: repositoryName, contributions: contributions, Url: avatarUrl)
+                        }
+                    }
+                    completion(result: true)
+                case let .Failure(errorvalue):
+                    print(errorvalue)
+                    completion(result: false)
+                    
+                }
+        }
+    }
+    
+
+    
+    
+    
+    
+//-------------------------------- API call for fetching the extra contributor Details -----------------------------
     func getContributorStats(repositoryName: String, username: String, completion: (responseBool: Bool) -> Void){
         
-        let keychain = Keychain(service: "com.example.Practo.major")
-        let headers = ["Authorization": "bearer \(keychain["Auth_token"]! as String)"]
+        let headers = ["Authorization": "bearer \(KeychainHandler().getAuthToken())"]
+        
         Alamofire.request(.GET, "https://api.github.com/repos/\(username)/\(repositoryName)/stats/contributors", parameters: [:],headers: headers)
             .responseJSON { response in
                 if (response.response?.statusCode == 202){
@@ -48,9 +93,9 @@ class APIcaller{
                         for week in item["weeks"].arrayValue {
                             linesAdded = linesAdded + week["a"].intValue
                             linesDeleted = linesDeleted + week["d"].intValue
-                            DatabaseHandler().addContributorStats(repositoryName, contributorName: contributorName, linesAdded : linesAdded, linesDeleted: linesDeleted, commits: commits)
                             
                         }
+                        DatabaseHandler().addContributorStats(repositoryName, contributorName: contributorName, linesAdded : linesAdded, linesDeleted: linesDeleted, commits: commits)
                         
                     }
                    completion(responseBool: true)
@@ -63,6 +108,44 @@ class APIcaller{
         
     }
     
+// MARK: Repository Details API functions
+
+    
+//-------------------------------- API call for fetching repository and putting it in database -----------------------------
+    func getRepositories(completion: (result:Bool)-> Void){
+        
+        let headers = ["Authorization": "bearer \(KeychainHandler().getAuthToken())"]
+        
+        Alamofire.request(.GET, "https://api.github.com/users/\(DatabaseHandler().currentUser().valueForKey("username") as! String)/repos", parameters: [:], headers: headers)
+            .responseJSON { response in
+                
+                
+                switch response.result {
+                case let .Success(successvalue):
+                    
+                    let json = JSON(successvalue)
+                    for item in json.arrayValue {
+                        
+                        let repositoryName = item["name"].stringValue
+                        let descriptionRepo = item["description"].stringValue
+                        let avatarUrl =  item["owner"]["avatar_url"].stringValue
+                        let repositories = DatabaseHandler().fetchRepositoryByName(repositoryName)
+                        
+                        if repositories.count != 0{
+                            DatabaseHandler().updateExistingRepository(repositoryName, Url: avatarUrl, description: descriptionRepo)
+                            continue
+                        }
+                        else{
+                            DatabaseHandler().AddNewRepository(repositoryName, isFavourite: "false", description: descriptionRepo, Url: avatarUrl)
+                        }
+                    }
+                    completion(result: true)
+                case let .Failure(errorvalue):
+                    completion(result: false)
+                    print(errorvalue)
+                }
+        }
+    }
     
 //--------------------- API call to get Issues count of repository -------------------
     
@@ -155,9 +238,9 @@ class APIcaller{
         
     }
     
-    
-    
-    func login(userName : String, password : String, otp: String, completion : (JSON, Response<AnyObject, NSError> ) -> ()){
+// MARK: API Login  Functions
+//------------------------ API Call for Login using header -------------------------------------------
+    func login(userName : String, password : String, otp: String, completion : (Response<AnyObject, NSError> ) -> ()){
         let parameters = [
             "scopes"    : ["public_repo", "repo", "read:org", "repo:status"],
             "note" : "token for repos",
@@ -165,68 +248,37 @@ class APIcaller{
             "client_secret" : CLIENT_SECRET
         ]
         
-        
+        Alamofire.request(.POST, API_URL+"authorizations", parameters: parameters as? [String : AnyObject], encoding: .JSON, headers:headerReturn(userName, password: password, otp: otp) ).responseJSON { response in
+                switch response.result {
+                case let .Success(successvalue):
+                    if response.response?.statusCode <= 201 {
+                        let jsonData = JSON(data: response.data!)
+                        let keychain = Keychain(service: "com.example.Practo.major")
+                        do {
+                            try keychain.set(jsonData["token"].stringValue,key : "Auth_token")
+                        }catch let error {
+                            print(error)
+                        }
+                    }
+                case let .Failure(errorvalue):
+                    print(errorvalue)
+                }
+                completion(response)
+            }
+    }
+    
+//------------------------ Provide header based on data based for login -------------------------------------------
+    func headerReturn(userName : String, password : String, otp :String)-> [String:String]{
         let credentialData = "\(userName):\(password)".dataUsingEncoding(NSUTF8StringEncoding)!
         let base64Credentials = credentialData.base64EncodedStringWithOptions([])
         if !(otp == ""){
             
-            let headers = ["Authorization": "Basic \(base64Credentials)", "X-GitHub-OTP": "\(otp)"]
-            Alamofire.request(.POST, API_URL+"authorizations", parameters: parameters as? [String : AnyObject], encoding: .JSON, headers: headers).responseJSON { response in
-                let jsonData = JSON(data: response.data!)
-                
-                if (response.result.error == nil){
-                    
-                    let AUTH_TOKEN = jsonData["token"].stringValue
-                    
-                    
-                    if response.response?.statusCode <= 201 {
-                        let keychain = Keychain(service: "com.example.Practo.major")
-                        do {
-                            try keychain.set(AUTH_TOKEN,key : "Auth_token")
-                        }catch let error {
-                            print(error)
-                        }
-                    }
-                    
-                    completion(jsonData, response)
-                }
-                else{
-                    completion(jsonData, response)
-                }
-                
-            }
+            return ["Authorization": "Basic \(base64Credentials)", "X-GitHub-OTP": "\(otp)"]
         }
         else{
-            
-            let headers = ["Authorization": "Basic \(base64Credentials)"]
-            Alamofire.request(.POST, API_URL+"authorizations", parameters: parameters as? [String : AnyObject], encoding: .JSON, headers: headers).responseJSON { response in
-                let jsonData = JSON(data: response.data!)
-                
-                if (response.result.error == nil){
-                   
-                    let AUTH_TOKEN = jsonData["token"].stringValue
-                    
-                    if response.response?.statusCode <= 201{
-                        let keychain = Keychain(service: "com.example.Practo.major")
-                        do {
-                            try keychain.set(AUTH_TOKEN,key : "Auth_token")
-                        }catch let error {
-                            print(error)
-                        }
-                    }
-                    
-                    completion(jsonData, response)
-                }
-                else{
-                    completion(jsonData, response)
-                }
-                
-            }
+            return ["Authorization": "Basic \(base64Credentials)"]
         }
-        
-        
     }
-    
     
     
 }
