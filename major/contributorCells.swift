@@ -11,6 +11,8 @@ import UIKit
 class contributorCells: UITableViewCell {
 
     @IBOutlet weak var contributorsName: UILabel!
-    @IBOutlet weak var linesDeleted: UILabel!
-    @IBOutlet weak var linesAdded: UILabel!
+    @IBOutlet weak var contributorImage: UIImageView!
+    
+    @IBOutlet weak var contributorCellBoundary: UIView!
+    @IBOutlet weak var contributions: UILabel!
 }

@@ -10,200 +10,244 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import CoreData
+import KeychainAccess
 
-class RepositoryViewController: UITableViewController {
+class RepositoryViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
     var repositories = [NSManagedObject]()
+    var searchController: UISearchController!
+    var filteredArray = [NSManagedObject]()
+    var searchBarStatus = false
+        var shouldShowSearchResults = false
+    let appDelegate =
+        UIApplication.sharedApplication().delegate as! AppDelegate
     
-    @IBAction func favButtonClicked(sender: AnyObject) {
-        print(sender.tag)
-        var appDel: AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
-        var context: NSManagedObjectContext = appDel.managedObjectContext
-        
-        var fetchRequest = NSFetchRequest(entityName: "Repositories")
-        fetchRequest.predicate = NSPredicate(format: "repositoryName = %@", (self.repositories[sender.tag].valueForKey("repositoryName") as? String)!)
-        
-        
-        do {
-            let fetchResults =
-                try appDel.managedObjectContext.executeFetchRequest(fetchRequest)
-                if fetchResults.count != 0{
+// MARK: Functions for Actions for Buttons
+//-------------------------- LOGOUT FUNCTION ------------------------------
     
-                    var managedObject = fetchResults[0]
-                    managedObject.setValue(true, forKey: "isFavourite")
-    
-                    try context.save()
-                }
+    @IBAction func logoutAction(sender: AnyObject) {
+        let alert = UtilityHandler().showAlertWithSingleButton("Caution !", message: "Are you sure you want to Logout ?")
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { action in
+            KeychainHandler().removeAuthToken()
+            DatabaseHandler().changeCurrentUser()
+            self.appDelegate.resetAppToFirstController()
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
 
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
+
+//------------------- Favourite Button Click Function ----------------------
+    @IBAction func favButtonClicked(sender: AnyObject) {
+        let repositoryName = (self.repositories[sender.tag].valueForKey("repositoryName") as? String)!
+        DatabaseHandler().changeIsFavouriteState(repositoryName)
+        displayData()
+    }
+    
+// MARK: search fucntions
+    @IBAction func searchBar(sender: AnyObject) {
+        if searchBarStatus == true{
+            searchController.active = false
+            searchBarStatus = false
+            shouldShowSearchResults = false
+            self.navigationItem.titleView = nil
+            self.tableView.reloadData()
+            
+            
+        }
+        else {
+            searchBarStatus = true
+            configureSearchController()
+        }
+    }
+
+    func configureSearchController() {
+        // Initialize and perform a minimum configuration to the search controller.
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search for repositories"
+        searchController.searchBar.delegate = self
+        searchController.searchBar.sizeToFit()
+        searchController.active = true
+        self.navigationItem.titleView = self.searchController.searchBar
+        searchController.hidesNavigationBarDuringPresentation = false
+        self.definesPresentationContext = true
+        
+        // Place the search bar view to the tableview headerview.
+    }
+    
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        shouldShowSearchResults = true
+        self.tableView.reloadData()
+    }
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        if !shouldShowSearchResults {
+            shouldShowSearchResults = true
+            self.tableView.reloadData()
         }
         
+        searchController.searchBar.resignFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        shouldShowSearchResults = false
+        searchBarStatus = false
+        self.navigationItem.titleView = nil
+        self.tableView.reloadData()
     }
     
     
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        let searchString = searchController.searchBar.text
+        
+        // Filter the data array and get only those countries that match the search text.
+        filteredArray = repositories.filter({ (repository) -> Bool in
+            let currRepository: NSManagedObject = repository
+            let repo = currRepository as! Repositories
+            let repositoryName : NSString = repo.repositoryName!
+            return (repositoryName.rangeOfString(searchString!, options: NSStringCompareOptions.CaseInsensitiveSearch).location) != NSNotFound
+        })
+        
+        // Reload the tableview.
+        self.tableView.reloadData()
+    }
+    
+// MARK: View Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        self.tableView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.92)
+        refreshControlSetup()
         if Reachability.isConnectedToNetwork() == true {
-            getRepositories()
-        } else {
+            displayData()
+            dataHandler().getRepositories(){
+                Result -> Void in
+                if Result == true {
+                    self.displayData()
+                }
+            }
+        }
+        else {
             displayData()
         }
         
     }
     
-    
-    
-    
-    func getRepositories(){
-        Alamofire.request(.GET, "https://api.github.com/orgs/practo/repos", parameters: [:])
-            .responseJSON { response in
-                let json = JSON(response.result.value!)
-                
-                for item in json.arrayValue {
-                    var name = item["name"].stringValue
-                    let appDelegate =
-                        UIApplication.sharedApplication().delegate as! AppDelegate
-                    
-                    let managedContext = appDelegate.managedObjectContext
-                    
-                    
-                    var fetchRequest = NSFetchRequest(entityName: "Repositories")
-                    fetchRequest.predicate = NSPredicate(format: "repositoryName = %@", name)
-                    
-                    
-                    do {
-                        let fetchResults =
-                            try managedContext.executeFetchRequest(fetchRequest)
-                        if fetchResults.count != 0{
-                            print (name)
-                            continue
-                        }
-                        
-                    } catch let error as NSError {
-                        print("Could not fetch \(error), \(error.userInfo)")
-                    }
-                    print(name+"hi")
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    //2
-                    let entity =  NSEntityDescription.entityForName("Repositories",
-                        inManagedObjectContext:managedContext)
-                    
-                    let repo = NSManagedObject(entity: entity!,
-                        insertIntoManagedObjectContext: managedContext)
-                    
-                    //3
-                    repo.setValue(name, forKey: "repositoryName")
-                    repo.setValue(false, forKey: "isFavourite")
-                    
-                    //4
-                    do {
-                        try managedContext.save()
-                        self.repositories.append(repo)
-                    } catch let error as NSError  {
-                        print("Could not save \(error), \(error.userInfo)")
-                    }
-                    
-                }
-               self.displayData()
-            
-        }
-    }
-    
-    
     func displayData(){
-        dispatch_async(dispatch_get_main_queue(), {
-            let appDelegate =
-                UIApplication.sharedApplication().delegate as! AppDelegate
-            
-            let managedContext = appDelegate.managedObjectContext
-            
-            //2
-            let fetchRequest = NSFetchRequest(entityName: "Repositories")
-            
-            //3
-            do {
-                let results =
-                    try managedContext.executeFetchRequest(fetchRequest)
-                self.repositories = results as! [NSManagedObject]
-                self.tableView.reloadData()
-            } catch let error as NSError {
-                print("Could not fetch \(error), \(error.userInfo)")
-            }
-            
-            
-        })
+        self.repositories = DatabaseHandler().fetchAllRepositories()
+        self.tableView.reloadData()
+        refreshControl!.endRefreshing()
     }
-    
-    func deleteAllData(entity: String)
-    {
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entity)
-        fetchRequest.returnsObjectsAsFaults = false
-        
-        do
-        {
-            let results = try managedContext.executeFetchRequest(fetchRequest)
-            for managedObject in results
-            {
-                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
-                managedContext.deleteObject(managedObjectData)
-            }
-        } catch let error as NSError {
-            print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
-        }
-    }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return repositories.count
-        
-    }
-    
-    
-    
-    
-    
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cellPrototype") as! repositoryCells
-        // Set the first row text label to the firstRowLabel data in our current array item
-        cell.favButton.tag = indexPath.row
-        cell.favButton.addTarget(self, action: #selector(favButtonClicked(_:)), forControlEvents: .TouchUpInside)
-        dispatch_async(dispatch_get_main_queue(), {
-            
-            
-            cell.repositoryName.text = self.repositories[indexPath.row].valueForKey("repositoryName") as? String
-
-            
-        })
-        
-        // Return our new cell for display
-        return cell
-        
-    }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if  segue.identifier == "contributorSegue"
-        {
-            let destination = segue.destinationViewController as? ContributorViewController,
+        if  segue.identifier == "RepositoryDescriptionPage"
+        {   var source = repositories
+            if shouldShowSearchResults {
+                source = filteredArray
+            }
+            let destination = segue.destinationViewController as! RepositoryDetailsController,
             repositoryIndex = tableView.indexPathForSelectedRow?.row
-            destination!.repository  = (self.repositories[repositoryIndex!].valueForKey("repositoryName") as? String)!
+            destination.repositoryName = (source[repositoryIndex!].valueForKey("repositoryName") as? String)!
+            destination.username = DatabaseHandler().currentUser().valueForKey("username") as! String
         }
     }
+    
+// MARK: Table View Functions
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if shouldShowSearchResults {
+            return filteredArray.count
+        }
+        return repositories.count
+    }
+
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("cellPrototype") as! repositoryCells
+        
+        setUpFavButtons(cell.favButton, row: indexPath.row)
+        makeBoundaryForView(cell.view)
+        makeImageCircular(cell.repositoryImage)
+        
+        var source = repositories
+        if shouldShowSearchResults {
+            source = filteredArray
+        }
+    // Set Image to Favourite Button
+        if source[indexPath.row].valueForKey("isFavourite") as? String == "true"{
+            cell.favButton.setImage(UIImage(named: "heartfilled"), forState: UIControlState.Normal)}
+        else{
+            cell.favButton.setImage(UIImage(named: "heartunfilled"), forState: UIControlState.Normal)}
+        
+    // Set Text Fields
+        cell.repositoryName.text = source[indexPath.row].valueForKey("repositoryName") as? String
+        cell.descriptionLabel.text = source[indexPath.row].valueForKey("descriptionRepo") as? String
+        
+    //  SET Image to the image view
+        let URL = NSURL(string: (source[indexPath.row].valueForKey("avatarUrl") as? String)!)
+        let placeholderImage = UIImage(named: "tabbutton")!
+        cell.repositoryImage.contentMode = UIViewContentMode.ScaleAspectFit
+        cell.repositoryImage
+            .af_setImageWithURL(URL!, placeholderImage: placeholderImage)
+        
+        return cell
+    }
+    
+// MARK: UI functions
+//-------------------- Functions to improve the  design -------------------------------
+    func makeImageCircular(view: UIImageView){
+        view.layer.borderWidth = 1.0
+        view.layer.masksToBounds = false
+        view.layer.borderColor = UIColor.whiteColor().CGColor
+        view.layer.cornerRadius = view.frame.size.height/2
+        view.clipsToBounds = true
+    }
+    
+    func makeBoundaryForView(view: UIView){
+        view.layer.shadowColor = UIColor.blackColor().CGColor
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = CGSizeZero
+        view.layer.shadowRadius = 1
+        
+    }
+    
+    func setUpFavButtons(button: UIButton, row: Int){
+        button.tag = row
+        button.addTarget(self, action: #selector(favButtonClicked(_:)), forControlEvents: .TouchUpInside)
+    }
+    
+    
+    
+    
+    
+    
+
+// MARK: Refresh Control
+    func refreshControlSetup(){
+        refreshControl = UIRefreshControl()
+        refreshControl!.addTarget(self, action: #selector(RepositoryViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        self.tableView.addSubview(refreshControl!)
+        
+    }
+    
+    func refresh(sender:AnyObject) {
+        dataHandler().getRepositories(){
+            Result-> Void in
+            self.displayData()
+            self.refreshControl!.endRefreshing()
+        }
+        
+    }
+
+    
+    
+    
 
 }
+
+
+

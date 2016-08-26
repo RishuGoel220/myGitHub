@@ -1,0 +1,58 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "46CAEAA71C374E33167F902EF3457561F7E05676",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "F28E3B8B34EE8C9DB11A1777A848BF87AC2D9173" : 0,
+    "87249C4CA9CA70F707BD67A26BB81E13BB24AB6D" : 0,
+    "46CAEAA71C374E33167F902EF3457561F7E05676" : 0,
+    "61726D9B46B2E1C7C208D68817CA86DD3EB62F98" : 0,
+    "C912B517C49843663A46B00333644113D94E76A4" : 0,
+    "E7817F63A87C5FD85F3D60314CFFC7E92D51E1C4" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "E4D26357-20FF-498F-8B2B-07F08166B852",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "F28E3B8B34EE8C9DB11A1777A848BF87AC2D9173" : "LocalNotification\/",
+    "87249C4CA9CA70F707BD67A26BB81E13BB24AB6D" : "TableViewApplication\/",
+    "46CAEAA71C374E33167F902EF3457561F7E05676" : "major\/",
+    "61726D9B46B2E1C7C208D68817CA86DD3EB62F98" : "Downloader\/",
+    "C912B517C49843663A46B00333644113D94E76A4" : "Font%20Changer\/",
+    "E7817F63A87C5FD85F3D60314CFFC7E92D51E1C4" : "NumberDialer\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "major",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "major.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/RishuGoel220\/myGitHub.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "46CAEAA71C374E33167F902EF3457561F7E05676"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/RishuGoel220\/ImageDownloader",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "61726D9B46B2E1C7C208D68817CA86DD3EB62F98"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/RishuGoel220\/NotesApplication.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "87249C4CA9CA70F707BD67A26BB81E13BB24AB6D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/RishuGoel220\/FontChanger.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C912B517C49843663A46B00333644113D94E76A4"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/RishuGoel220\/PhoneValidator",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E7817F63A87C5FD85F3D60314CFFC7E92D51E1C4"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/RishuGoel220\/LocalNotifications",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F28E3B8B34EE8C9DB11A1777A848BF87AC2D9173"
+    }
+  ]
+}

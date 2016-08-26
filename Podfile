@@ -10,5 +10,7 @@ target 'major' do
   # Pods for major
   pod 'Alamofire', '~> 3.1.2'
   pod 'SwiftyJSON'
+  pod ’KeychainAccess'
+  pod 'AlamofireImage', '~> 2.0'
 
 end
