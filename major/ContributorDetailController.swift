@@ -33,7 +33,7 @@ class ContributorDetailController: UIViewController {
     
     override func viewDidLoad() {
         
-        APIcaller().getContributorStats(repositoryName, username: self.username ){
+        dataHandler().getContributorStats(repositoryName, username: self.username ){
             (responseBool)-> Void in
             
             if responseBool == true {

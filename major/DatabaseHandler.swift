@@ -18,7 +18,11 @@ public class DatabaseHandler {
         UIApplication.sharedApplication().delegate as! AppDelegate
 
 // MARK: Repository Data Handling functions
-//---------------- Repository Database functions ------------------
+    
+    
+//------------------------- fetch favourite repositories ----------------------------
+//
+//
     func fetchFavouriteRepositories()-> [Repositories]{
         let managedContext = appDelegate.managedObjectContext
         let fetchRequest = NSFetchRequest(entityName: "Repositories")
@@ -99,10 +103,8 @@ public class DatabaseHandler {
         return []
     }
     //---------------- Add the repo extra stats------------------
-    func addRepositoryStats(repositoryName : String, username: String){
+    func addPRCount(repositoryName : String, username: String, PR: [Int] ){
         let managedContext = self.appDelegate.managedObjectContext
-        APIcaller().getPRCount(repositoryName, username : username){
-            (PR: [Int])-> Void in
             do {
                 
                 let fetchRequest = NSFetchRequest(entityName: "Repositories")
@@ -121,12 +123,11 @@ public class DatabaseHandler {
                 print("Could not fetch \(error), \(error.userInfo)")
             }
             
-        }
-        
-        APIcaller().getIssueCount(repositoryName, username : username){
-            (Issues: [Int])-> Void in
+    }
+    
+    func addIssueCount(repositoryName : String, username: String, Issues: [Int]){
+        let managedContext = self.appDelegate.managedObjectContext
             do {
-                
                 let fetchRequest = NSFetchRequest(entityName: "Repositories")
                 fetchRequest.predicate = NSPredicate(format: "repositoryName = %@ and users CONTAINS %@",repositoryName, DatabaseHandler().currentUser())
                 let fetchResultsWithUser =
@@ -142,9 +143,6 @@ public class DatabaseHandler {
             } catch let error as NSError {
                 print("Could not fetch \(error), \(error.userInfo)")
             }
-            
-            
-        }
         
     }
     

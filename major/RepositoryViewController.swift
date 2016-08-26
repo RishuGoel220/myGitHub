@@ -47,9 +47,9 @@ class RepositoryViewController: UITableViewController, UISearchResultsUpdating, 
     @IBAction func searchBar(sender: AnyObject) {
         if searchBarStatus == true{
             searchController.active = false
-            self.tableView.tableHeaderView = nil
             searchBarStatus = false
             shouldShowSearchResults = false
+            self.navigationItem.titleView = nil
             self.tableView.reloadData()
             
             
@@ -68,11 +68,12 @@ class RepositoryViewController: UITableViewController, UISearchResultsUpdating, 
         searchController.searchBar.placeholder = "Search for repositories"
         searchController.searchBar.delegate = self
         searchController.searchBar.sizeToFit()
+        searchController.active = true
+        self.navigationItem.titleView = self.searchController.searchBar
         searchController.hidesNavigationBarDuringPresentation = false
         self.definesPresentationContext = true
         
         // Place the search bar view to the tableview headerview.
-        self.tableView.tableHeaderView = searchController.searchBar
     }
     
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
@@ -90,6 +91,8 @@ class RepositoryViewController: UITableViewController, UISearchResultsUpdating, 
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         shouldShowSearchResults = false
+        searchBarStatus = false
+        self.navigationItem.titleView = nil
         self.tableView.reloadData()
     }
     
@@ -112,10 +115,11 @@ class RepositoryViewController: UITableViewController, UISearchResultsUpdating, 
 // MARK: View Functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.92)
         refreshControlSetup()
         if Reachability.isConnectedToNetwork() == true {
             displayData()
-            APIcaller().getRepositories(){
+            dataHandler().getRepositories(){
                 Result -> Void in
                 if Result == true {
                     self.displayData()
@@ -153,6 +157,7 @@ class RepositoryViewController: UITableViewController, UISearchResultsUpdating, 
     }
     
 // MARK: Table View Functions
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if shouldShowSearchResults {
             return filteredArray.count
@@ -199,7 +204,6 @@ class RepositoryViewController: UITableViewController, UISearchResultsUpdating, 
         view.layer.borderColor = UIColor.whiteColor().CGColor
         view.layer.cornerRadius = view.frame.size.height/2
         view.clipsToBounds = true
-        
     }
     
     func makeBoundaryForView(view: UIView){
@@ -207,6 +211,7 @@ class RepositoryViewController: UITableViewController, UISearchResultsUpdating, 
         view.layer.shadowOpacity = 0.5
         view.layer.shadowOffset = CGSizeZero
         view.layer.shadowRadius = 1
+        
     }
     
     func setUpFavButtons(button: UIButton, row: Int){
@@ -230,7 +235,7 @@ class RepositoryViewController: UITableViewController, UISearchResultsUpdating, 
     }
     
     func refresh(sender:AnyObject) {
-        APIcaller().getRepositories(){
+        dataHandler().getRepositories(){
             Result-> Void in
             self.displayData()
             self.refreshControl!.endRefreshing()

@@ -22,40 +22,14 @@ class APIcaller{
     
 // MARK: API functions for Contributor Data
 //-------------------------------- API call for fetching contributors and putting it in database -----------------------------
-    func getContributors(repositoryName: String, completion: (result:Bool)-> Void){
+    func getContributorsCall(repositoryName: String, completion: (response: (Response<AnyObject,NSError>))-> Void){
         
         let headers = ["Authorization": "bearer \(KeychainHandler().getAuthToken())"]
         
         Alamofire.request(.GET, "https://api.github.com/repos/\(DatabaseHandler().currentUser().valueForKey("username") as! String)/"+repositoryName+"/contributors", parameters: [:], headers: headers)
             .responseJSON { response in
+                completion(response: response)
                 
-                
-                switch response.result {
-                case let .Success(successvalue):
-                    
-                    let json = JSON(successvalue)
-                    for item in json.arrayValue {
-                        
-                        let contributorName = item["login"].stringValue
-                        let contributions = item["contributions"].stringValue
-                        let avatarUrl = item["avatar_url"].stringValue
-                        
-                        let contributors = DatabaseHandler().fetchContributorByName(contributorName, repositoryName: repositoryName)
-                        
-                        if contributors.count != 0{
-                            DatabaseHandler().updateExistingContributor(contributorName, repositoryName: repositoryName, Url: avatarUrl,contributions: contributions)
-                            continue
-                        }
-                        else{
-                            DatabaseHandler().AddNewContributor(contributorName, repositoryName: repositoryName, contributions: contributions, Url: avatarUrl)
-                        }
-                    }
-                    completion(result: true)
-                case let .Failure(errorvalue):
-                    print(errorvalue)
-                    completion(result: false)
-                    
-                }
         }
     }
     
@@ -64,44 +38,13 @@ class APIcaller{
     
     
 //-------------------------------- API call for fetching the extra contributor Details -----------------------------
-    func getContributorStats(repositoryName: String, username: String, completion: (responseBool: Bool) -> Void){
+    func getContributorStatsCall(repositoryName: String, username: String, completion: (response: (Response<AnyObject,NSError>)) -> Void){
         
         let headers = ["Authorization": "bearer \(KeychainHandler().getAuthToken())"]
         
         Alamofire.request(.GET, "https://api.github.com/repos/\(username)/\(repositoryName)/stats/contributors", parameters: [:],headers: headers)
             .responseJSON { response in
-                if (response.response?.statusCode == 202){
-                    self.getContributorStats(repositoryName,username: username){
-                        (responseBool: Bool) -> Void in
-                        if responseBool == true{
-                            completion(responseBool: true)
-                        }
-                        else{
-                        completion(responseBool: false)
-                        }
-                    }
-                    
-                }
-                else if (response.response?.statusCode == 200){
-                    let json = JSON(response.result.value!)
-                    for item in json.arrayValue{
-                        let contributorName = item["author"]["login"].stringValue
-                        let commits = item["total"].intValue
-                        var linesAdded = 0
-                        var linesDeleted = 0
-                        for week in item["weeks"].arrayValue {
-                            linesAdded = linesAdded + week["a"].intValue
-                            linesDeleted = linesDeleted + week["d"].intValue
-                            
-                        }
-                        DatabaseHandler().addContributorStats(repositoryName, contributorName: contributorName, linesAdded : linesAdded, linesDeleted: linesDeleted, commits: commits)
-                        
-                    }
-                   completion(responseBool: true)
-                }
-                else{
-                    completion(responseBool: false)
-                }
+                completion(response: response)
         }
 
         
@@ -111,134 +54,59 @@ class APIcaller{
 
     
 //-------------------------------- API call for fetching repository and putting it in database -----------------------------
-    func getRepositories(completion: (result:Bool)-> Void){
+    func getRepositoriesCall(completion: (response: (Response<AnyObject,NSError>))-> Void){
         
         let headers = ["Authorization": "bearer \(KeychainHandler().getAuthToken())"]
         
         Alamofire.request(.GET, "https://api.github.com/users/\(DatabaseHandler().currentUser().valueForKey("username") as! String)/repos", parameters: [:], headers: headers)
             .responseJSON { response in
                 
-                
-                switch response.result {
-                case let .Success(successvalue):
-                    
-                    let json = JSON(successvalue)
-                    for item in json.arrayValue {
-                        
-                        let repositoryName = item["name"].stringValue
-                        let descriptionRepo = item["description"].stringValue
-                        let avatarUrl =  item["owner"]["avatar_url"].stringValue
-                        let repositories = DatabaseHandler().fetchRepositoryByName(repositoryName)
-                        
-                        if repositories.count != 0{
-                            DatabaseHandler().updateExistingRepository(repositoryName, Url: avatarUrl, description: descriptionRepo)
-                            continue
-                        }
-                        else{
-                            DatabaseHandler().AddNewRepository(repositoryName, isFavourite: "false", description: descriptionRepo, Url: avatarUrl)
-                        }
-                    }
-                    completion(result: true)
-                case let .Failure(errorvalue):
-                    completion(result: false)
-                    print(errorvalue)
-                }
+                completion(response: response)
         }
     }
     
 //--------------------- API call to get Issues count of repository -------------------
     
-    func getIssueCount(repositoryName : String, username : String, result: (Issues: [Int])-> Void) {
-        var openIssueCount : Int = 0
-        var closedIssueCount : Int = 0
+    func getIssueCountCall(repositoryName : String, username : String, completion: (response: (Response<AnyObject,NSError>))-> Void) {
         let keychain = Keychain(service: "com.example.Practo.major")
         let headers = ["Authorization": "bearer \(keychain["Auth_token"]! as String)"]
         Alamofire.request(.GET, "https://api.github.com/repos/\(username)/\(repositoryName)/issues", parameters: [:],headers: headers)
             .responseJSON { response in
-                
-                switch response.result {
-                case let .Success(successvalue):
-                    let json = JSON(successvalue)
-                    
-                    for item in json.arrayValue {
-                        if item["state"] == "open"{
-                            openIssueCount = openIssueCount + 1
-                        }
-                        else{
-                            closedIssueCount = closedIssueCount + 1
-                        }
-                        
-                        
-                    }
-                    result(Issues: [openIssueCount, closedIssueCount])
-                case let .Failure(errorvalue):
-                    print(errorvalue)
-                }
-                
+                completion(response: response)
+                                
         }
     }
     
     
 //--------------------- API call to get Pull request count of repository -------------------
-    func getPRCount(repositoryName : String, username : String, result: (PR: [Int])->Void){
+    func getPRCountCall(repositoryName : String, username : String, completion: (response: (Response<AnyObject,NSError>))-> Void){
         
-        var openPRCount : Int = 0
-        var mergedPRCount : Int = 0
         let keychain = Keychain(service: "com.example.Practo.major")
         let headers = ["Authorization": "token \(keychain["Auth_token"]! as String)"]
         Alamofire.request(.GET, "https://api.github.com/repos/\(username)/\(repositoryName)/issues", parameters: [:], headers: headers)
             .responseJSON { response in
-                
-                switch response.result {
-                case let .Success(successvalue):
-                    let json = JSON(successvalue)
-                    
-                    for item in json.arrayValue {
-                        if item["state"] == "open"{
-                            openPRCount = openPRCount + 1
-                        }
-                        else{
-                            mergedPRCount = mergedPRCount + 1
-                        }
-                        
-                        
-                    }
-                    result(PR: [openPRCount, mergedPRCount])
-                case let .Failure(errorvalue):
-                    print(errorvalue)
-                }
+                completion(response: response)
                 
         }
         
     }
     
 //--------------------- API call to get commit count of repository ---------------------------
-    func getCommitCount(repositoryName : String, username : String, commitcount: (Int)->Void){
-        var commitCount : Int = 0
+    func getCommitCountCall(repositoryName : String, username : String, completion: (response: (Response<AnyObject,NSError>))-> Void){
+        
         
         let keychain = Keychain(service: "com.example.Practo.major")
         let headers = ["Authorization": "token \(keychain["Auth_token"]! as String) "]
         Alamofire.request(.GET, "https://api.github.com/repos/\(username)/\(repositoryName)/issues", parameters: [:], headers: headers)
             .responseJSON { response in
-                
-                switch response.result {
-                case let .Success(successvalue):
-                    let json = JSON(successvalue)
-                    
-                    for item in json.arrayValue {
-                        commitCount = commitCount + item["total"].intValue
-                    }
-                    commitcount(commitCount)
-                case let .Failure(errorvalue):
-                    print(errorvalue)
-                }
-                
+                completion(response: response)
         }
         
     }
+
     
 // MARK: API Login  Functions
-//------------------------ API Call for Login using header -------------------------------------------
+//--------------------- API Call for Login using header-------------------------------------------
     func login(userName : String, password : String, otp: String, completion : (Response<AnyObject, NSError> ) -> ()){
         let parameters = [
             "scopes"    : ["public_repo", "repo", "read:org", "repo:status"],

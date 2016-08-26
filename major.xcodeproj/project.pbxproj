@@ -24,6 +24,7 @@
 		3E59FC571D6EE5DD00AFFDBB /* Repositories+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FC511D6EE5DD00AFFDBB /* Repositories+CoreDataProperties.swift */; };
 		3E59FC581D6EE5DD00AFFDBB /* Repositories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FC521D6EE5DD00AFFDBB /* Repositories.swift */; };
 		3E59FC6A1D6F608800AFFDBB /* UtilityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FC691D6F608800AFFDBB /* UtilityHandler.swift */; };
+		3E59FC6C1D7064C700AFFDBB /* dataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FC6B1D7064C600AFFDBB /* dataHandler.swift */; };
 		3EB0294F1D65932B002BFDBF /* APIcaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB0294E1D65932B002BFDBF /* APIcaller.swift */; };
 		3EB076651D5EFA7700FF95CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB076641D5EFA7700FF95CC /* AppDelegate.swift */; };
 		3EB076671D5EFA7700FF95CC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB076661D5EFA7700FF95CC /* ViewController.swift */; };
@@ -67,6 +68,7 @@
 		3E59FC511D6EE5DD00AFFDBB /* Repositories+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Repositories+CoreDataProperties.swift"; path = "Entities/Repositories+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3E59FC521D6EE5DD00AFFDBB /* Repositories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Repositories.swift; path = Entities/Repositories.swift; sourceTree = "<group>"; };
 		3E59FC691D6F608800AFFDBB /* UtilityHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityHandler.swift; sourceTree = "<group>"; };
+		3E59FC6B1D7064C600AFFDBB /* dataHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dataHandler.swift; sourceTree = "<group>"; };
 		3EB0294E1D65932B002BFDBF /* APIcaller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIcaller.swift; sourceTree = "<group>"; };
 		3EB076611D5EFA7700FF95CC /* major.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = major.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EB076641D5EFA7700FF95CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -166,9 +168,10 @@
 				3EB0767D1D62ECD700FF95CC /* RepositoryViewController.swift */,
 				3EB076831D630ADF00FF95CC /* favouritesViewController.swift */,
 				3E59FC691D6F608800AFFDBB /* UtilityHandler.swift */,
-				3E59FC3D1D6DAE0200AFFDBB /* KeychainHandler.swift */,
-				3E59FC3F1D6DB0B000AFFDBB /* DatabaseHandler.swift */,
+				3E59FC6B1D7064C600AFFDBB /* dataHandler.swift */,
 				3EB0294E1D65932B002BFDBF /* APIcaller.swift */,
+				3E59FC3F1D6DB0B000AFFDBB /* DatabaseHandler.swift */,
+				3E59FC3D1D6DAE0200AFFDBB /* KeychainHandler.swift */,
 				3E3421431D64422A00DD5B81 /* Reachability.swift */,
 				3EB076641D5EFA7700FF95CC /* AppDelegate.swift */,
 				3E5823E01D6CF1CB00C70169 /* Main.storyboard */,
@@ -367,6 +370,7 @@
 				3EB076801D62FB0E00FF95CC /* contributorCells.swift in Sources */,
 				3E59FC541D6EE5DD00AFFDBB /* Users.swift in Sources */,
 				3EB0767C1D62EB6100FF95CC /* repositoryCells.swift in Sources */,
+				3E59FC6C1D7064C700AFFDBB /* dataHandler.swift in Sources */,
 				3E59FC531D6EE5DD00AFFDBB /* Users+CoreDataProperties.swift in Sources */,
 				3E59FC461D6DD62000AFFDBB /* IssuesCell.swift in Sources */,
 				3E59FC571D6EE5DD00AFFDBB /* Repositories+CoreDataProperties.swift in Sources */,

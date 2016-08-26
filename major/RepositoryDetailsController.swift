@@ -21,13 +21,20 @@ class RepositoryDetailsController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        APIcaller().getContributors(repositoryName){
+        dataHandler().getContributors(repositoryName){
             Result-> Void in
             if Result == true{
                 self.displayTable()
             }
         }
-        DatabaseHandler().addRepositoryStats(repositoryName, username: username)
+        dataHandler().getPRCount(repositoryName, username: username){
+            result in
+            
+        }
+        dataHandler().getIssueCount(repositoryName, username: username){
+            result in
+            
+        }
         displayTable()
         
     }
@@ -143,11 +150,5 @@ class RepositoryDetailsController: UITableViewController {
         cellview.layer.shadowOffset = CGSizeZero
         cellview.layer.shadowRadius = 1
     }
-    
-   
-    
-    
-    
-    
     
 }
