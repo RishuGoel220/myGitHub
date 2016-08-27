@@ -72,8 +72,6 @@ class RepositoryViewController: UITableViewController, UISearchResultsUpdating, 
         self.navigationItem.titleView = self.searchController.searchBar
         searchController.hidesNavigationBarDuringPresentation = false
         self.definesPresentationContext = true
-        
-        // Place the search bar view to the tableview headerview.
     }
     
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
@@ -117,6 +115,7 @@ class RepositoryViewController: UITableViewController, UISearchResultsUpdating, 
         super.viewDidLoad()
         self.tableView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.92)
         refreshControlSetup()
+        // if Internet is on get repositories byapi call and refresh data
         if Reachability.isConnectedToNetwork() == true {
             displayData()
             dataHandler().getRepositories(){
@@ -126,10 +125,14 @@ class RepositoryViewController: UITableViewController, UISearchResultsUpdating, 
                 }
             }
         }
+        // if network not there just diaplay the previosuly stored data
         else {
             displayData()
         }
         
+    }
+    override func viewWillAppear(animated: Bool) {
+        displayData()
     }
     
     func displayData(){
@@ -140,7 +143,6 @@ class RepositoryViewController: UITableViewController, UISearchResultsUpdating, 
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -167,11 +169,12 @@ class RepositoryViewController: UITableViewController, UISearchResultsUpdating, 
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cellPrototype") as! repositoryCells
-        
+        // UI enhancement 
         setUpFavButtons(cell.favButton, row: indexPath.row)
         makeBoundaryForView(cell.view)
         makeImageCircular(cell.repositoryImage)
         
+// if search is on use source as filtered array otherwise total repositories array
         var source = repositories
         if shouldShowSearchResults {
             source = filteredArray
@@ -216,7 +219,6 @@ class RepositoryViewController: UITableViewController, UISearchResultsUpdating, 
     
     func setUpFavButtons(button: UIButton, row: Int){
         button.tag = row
-        button.addTarget(self, action: #selector(favButtonClicked(_:)), forControlEvents: .TouchUpInside)
     }
     
     

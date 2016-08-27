@@ -12,21 +12,34 @@ import SystemConfiguration
 import CoreData
 import UIKit
 
+//------------------------------------------------------------------------------
+// DESCRIPTION: Class to access Core Data contains fetching, updating and adding
+//              data to core data
+//------------------------------------------------------------------------------
 public class DatabaseHandler {
     
     let appDelegate =
         UIApplication.sharedApplication().delegate as! AppDelegate
 
+    
+    
 // MARK: Repository Data Handling functions
     
-    
-//------------------------- fetch favourite repositories ----------------------------
-//
-//
+//------------------------------------------------------------------------------
+// DESCRIPTION: function to fetch repositories marked as favourite 
+//              returns an array of Onbject of Type Repository Managed Object
+//------------------------------------------------------------------------------
     func fetchFavouriteRepositories()-> [Repositories]{
         let managedContext = appDelegate.managedObjectContext
+        
+    // To be fetched from table Repositories
         let fetchRequest = NSFetchRequest(entityName: "Repositories")
-        fetchRequest.predicate = NSPredicate(format: "isFavourite == %@ and users CONTAINS %@", "true", DatabaseHandler().currentUser())
+        
+    // Repository which is marked as favourite and for Current User
+        let predicate = "isFavourite == %@ and users CONTAINS %@"
+        fetchRequest.predicate = NSPredicate(format: predicate , "true",
+                                             DatabaseHandler().currentUser())
+        
         do {
             let repositories =
                 try managedContext.executeFetchRequest(fetchRequest) as! [Repositories]
@@ -34,36 +47,79 @@ public class DatabaseHandler {
         }catch let error as NSError{
             print("Could not fetch \(error), \(error.userInfo)")
         }
+        
+    // if there is some error with fetching print error and return empty array
         return []
     }
     
-    
+//------------------------------------------------------------------------------
+// DESCRIPTION: function to fetch repositories by its name
+//              returns an array of Object of Type Repository Managed Object
+//------------------------------------------------------------------------------
+    func fetchRepositoryByName(repositoryName : String)-> [Repositories]{
+        let managedContext = appDelegate.managedObjectContext
+        do {
+            let fetchRequest = NSFetchRequest(entityName: "Repositories")
+            
+            // Search for repository by name adn where user is current active user
+            let predicate = "repositoryName == %@ and users CONTAINS %@"
+            fetchRequest.predicate = NSPredicate(format: predicate, repositoryName,
+                                                 DatabaseHandler().currentUser())
+            
+            let repositories =
+                try managedContext.executeFetchRequest(fetchRequest) as! [Repositories]
+            return repositories
+        }catch let error as NSError{
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+    // if there is some error with fetching print error and return empty array
+        return []
+    }
+
+//------------------------------------------------------------------------------
+// DESCRIPTION: function to fetch All repositories for the current user
+//              returns an array of Object of Type Repository Managed Object
+//------------------------------------------------------------------------------
     func fetchAllRepositories()-> [Repositories]{
         let managedContext = appDelegate.managedObjectContext
         do {
             let fetchRequest = NSFetchRequest(entityName: "Repositories")
-            fetchRequest.predicate = NSPredicate(format: "users CONTAINS %@", DatabaseHandler().currentUser())
+            
+        // Fetch all repositories where user is currently active user
+            fetchRequest.predicate = NSPredicate(format: "users CONTAINS %@",
+                                                 DatabaseHandler().currentUser())
             let repositories =
                 try managedContext.executeFetchRequest(fetchRequest) as! [Repositories]
             return repositories
         }catch let error as NSError{
             print("Could not fetch \(error), \(error.userInfo)")
         }
+    // if there is some error with fetching print error and return empty array
         return []
     }
-    
-    func AddNewRepository(repositoryName: String, isFavourite: String, description: String, Url: String ){
+
+//------------------------------------------------------------------------------
+// DESCRIPTION: function to Add new repository to the Database
+//------------------------------------------------------------------------------
+    func AddNewRepository(repositoryName: String, isFavourite: String,
+                          description: String, Url: String){
         let managedContext = appDelegate.managedObjectContext
+        
         let entity =  NSEntityDescription.entityForName("Repositories",
                                                         inManagedObjectContext:managedContext)
         let repository = NSManagedObject(entity: entity!,
                                    insertIntoManagedObjectContext: managedContext) as! Repositories
         
+        
+    // Set the values passed to the function to the new repository Object
         repository.repositoryName = repositoryName
         repository.isFavourite = isFavourite
         repository.descriptionRepo = description
         repository.avatarUrl = Url
+    // Make the relationship with the current user by passing its object
         repository.users = NSSet(object : DatabaseHandler().currentUser())
+        
+    // Add it to the persistent store by saving
         do {
             try managedContext.save()
         } catch let error as NSError  {
@@ -72,13 +128,16 @@ public class DatabaseHandler {
         
     }
     
-    
-    
+//------------------------------------------------------------------------------
+// DESCRIPTION: function to Update the repository to the Database
+//------------------------------------------------------------------------------
     func updateExistingRepository(repositoryName : String, Url: String, description: String){
         let managedContext = appDelegate.managedObjectContext
         do{
+        // Search the repository by its name in the database
             let repositories = DatabaseHandler().fetchRepositoryByName(repositoryName)
             let repository = repositories.first
+        // Update its Data and Save it in the database
             repository!.avatarUrl = Url
             repository!.descriptionRepo = description
             try managedContext.save()
@@ -89,34 +148,20 @@ public class DatabaseHandler {
     }
     
     
-    func fetchRepositoryByName(repositoryName : String)-> [Repositories]{
-        let managedContext = appDelegate.managedObjectContext
-        do {
-            let fetchRequest = NSFetchRequest(entityName: "Repositories")
-            fetchRequest.predicate = NSPredicate(format: "repositoryName == %@ and users CONTAINS %@", repositoryName, DatabaseHandler().currentUser())
-            let repositories =
-                try managedContext.executeFetchRequest(fetchRequest) as! [Repositories]
-            return repositories
-        }catch let error as NSError{
-            print("Could not fetch \(error), \(error.userInfo)")
-        }
-        return []
-    }
-    //---------------- Add the repo extra stats------------------
+    
+//------------------------------------------------------------------------------
+// DESCRIPTION: function to Add PR count to the repository Object in Database
+//------------------------------------------------------------------------------
     func addPRCount(repositoryName : String, username: String, PR: [Int] ){
         let managedContext = self.appDelegate.managedObjectContext
             do {
-                
-                let fetchRequest = NSFetchRequest(entityName: "Repositories")
-                fetchRequest.predicate = NSPredicate(format: "repositoryName = %@ and users CONTAINS %@", repositoryName, DatabaseHandler().currentUser())
-                let fetchResultsWithUser =
-                    try managedContext.executeFetchRequest(fetchRequest)
+            // fetch the repository by its name
+                let fetchResultsWithUser = DatabaseHandler().fetchRepositoryByName(repositoryName)
+            // Now update the repository PR counts and save
                 if fetchResultsWithUser.count != 0{
                     fetchResultsWithUser[0].setValue(PR[0], forKey: "openPR")
                     fetchResultsWithUser[0].setValue(PR[1], forKey: "mergedPR")
-                    
                     try managedContext.save()
-                    
                 }
                 
             } catch let error as NSError {
@@ -124,22 +169,21 @@ public class DatabaseHandler {
             }
             
     }
-    
+
+//------------------------------------------------------------------------------
+// DESCRIPTION: function to Add Issue count to the repository Object in Database
+//------------------------------------------------------------------------------
     func addIssueCount(repositoryName : String, username: String, Issues: [Int]){
         let managedContext = self.appDelegate.managedObjectContext
             do {
-                let fetchRequest = NSFetchRequest(entityName: "Repositories")
-                fetchRequest.predicate = NSPredicate(format: "repositoryName = %@ and users CONTAINS %@",repositoryName, DatabaseHandler().currentUser())
-                let fetchResultsWithUser =
-                    try managedContext.executeFetchRequest(fetchRequest)
+            // fetch the repository by its name
+                let fetchResultsWithUser = DatabaseHandler().fetchRepositoryByName(repositoryName)
+            // Now update the repository Issue counts and save
                 if fetchResultsWithUser.count != 0{
                     fetchResultsWithUser[0].setValue(Issues[0], forKey: "openIssues")
                     fetchResultsWithUser[0].setValue(Issues[1], forKey: "closedIssues")
-                    
                     try managedContext.save()
-                    
                 }
-                
             } catch let error as NSError {
                 print("Could not fetch \(error), \(error.userInfo)")
             }
@@ -150,12 +194,22 @@ public class DatabaseHandler {
     
 
 // MARK: Contributors Data Handling functions
-//---------------- Contributors Database functions ------------------
+    
+//------------------------------------------------------------------------------
+// DESCRIPTION: function to fetch All contributor for the current user and the
+//              given repository.
+//              returns an array of Object of Type Contributor Managed Object
+//------------------------------------------------------------------------------
     func fetchAllContributors(repositoryName: String)-> [Contributors]{
         let managedContext = appDelegate.managedObjectContext
         do {
+        // To be fetched from table Contributors
             let fetchRequest = NSFetchRequest(entityName: "Contributors")
-            fetchRequest.predicate = NSPredicate(format: "repository == %@", DatabaseHandler().fetchRepositoryByName(repositoryName).first!)
+            
+        // fetch repository for the active user and search all contributor
+        // associated with it
+            fetchRequest.predicate = NSPredicate(format: "repository == %@",
+                                                 self.fetchRepositoryByName(repositoryName).first!)
             let contributors =
                 try managedContext.executeFetchRequest(fetchRequest) as! [Contributors]
             return contributors
@@ -164,8 +218,13 @@ public class DatabaseHandler {
         }
         return []
     }
+
     
-    func AddNewContributor(contributorName: String, repositoryName: String, contributions: String, Url: String ){
+//------------------------------------------------------------------------------
+// DESCRIPTION: function to Add New Contributor
+//------------------------------------------------------------------------------
+    func AddNewContributor(contributorName: String, repositoryName: String,
+                           contributions: String, Url: String ){
         let managedContext = appDelegate.managedObjectContext
         
         let entity =  NSEntityDescription.entityForName("Contributors",
@@ -173,6 +232,7 @@ public class DatabaseHandler {
         let contributor = NSManagedObject(entity: entity!,
                                          insertIntoManagedObjectContext: managedContext) as! Contributors
         
+        // Add the data of contributor to contributor object and Save to Database
         contributor.repository = DatabaseHandler().fetchRepositoryByName(repositoryName).first
         contributor.contributorsName = contributorName
         contributor.contributions = contributions
@@ -185,12 +245,19 @@ public class DatabaseHandler {
         
     }
     
-    
-    func updateExistingContributor(contributorName: String, repositoryName : String, Url: String, contributions: String){
+//------------------------------------------------------------------------------
+// DESCRIPTION: function to Update Existing Contributor
+//------------------------------------------------------------------------------
+    func updateExistingContributor(contributorName: String, repositoryName : String,
+                                   Url: String, contributions: String){
         let managedContext = appDelegate.managedObjectContext
         do{
-            let contributors = DatabaseHandler().fetchContributorByName(contributorName, repositoryName: repositoryName)
+        // Fetch contributor Object for by its name and repository Name
+            let contributors = DatabaseHandler().fetchContributorByName(contributorName,
+                                                                        repositoryName: repositoryName)
             let contributor = contributors.first
+            
+        // update the contributor details and save to database
             contributor!.avatarUrl = Url
             contributor!.contributions = contributions
             try managedContext.save()
@@ -200,11 +267,19 @@ public class DatabaseHandler {
         }
     }
     
+//------------------------------------------------------------------------------
+// DESCRIPTION: function to fetch contributor by its name for the current user
+//              and given repository
+//              returns an array of Object of Type Contributors Managed Object
+//------------------------------------------------------------------------------
     func fetchContributorByName(contributorName: String, repositoryName : String)-> [Contributors]{
         let managedContext = appDelegate.managedObjectContext
         do {
             let fetchRequest = NSFetchRequest(entityName: "Contributors")
-            fetchRequest.predicate = NSPredicate(format: "contributorsName == %@ and repository == %@ ",contributorName,self.fetchRepositoryByName(repositoryName).first!)
+            let predicate = "contributorsName == %@ and repository == %@ "
+            
+            fetchRequest.predicate = NSPredicate(format: predicate,contributorName,
+                                                 self.fetchRepositoryByName(repositoryName).first!)
             let contributors =
                 try managedContext.executeFetchRequest(fetchRequest) as! [Contributors]
             return contributors
@@ -214,52 +289,44 @@ public class DatabaseHandler {
         return []
     }
     
-
-    
-//---------------- Add the extra Stats for the conributor to database ------------------
-    func addContributorStats(repositoryName : String, contributorName : String, linesAdded : Int, linesDeleted : Int, commits : Int){
-        
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+//------------------------------------------------------------------------------
+// DESCRIPTION: function to Add Extra Contributor details for a contributor Name
+//              in Database
+//------------------------------------------------------------------------------
+    func addContributorStats(repositoryName : String, contributorName : String,
+                             linesAdded : Int, linesDeleted : Int, commits : Int){
         let managedContext = appDelegate.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: "Repositories")
-        fetchRequest.predicate = NSPredicate(format: "repositoryName == %@ and users CONTAINS %@",repositoryName, self.currentUser())
-        
         do {
-            
-                let repositories = try managedContext.executeFetchRequest(fetchRequest) as? [Repositories]
+        // search for contributor by its name and repositry Name for current User
+            let contributors = self.fetchContributorByName(contributorName,
+                                                               repositoryName: repositoryName)
+        // add extra details for the user and save
+            if let contributor = contributors.first{
+                contributor.linesAdded = linesAdded
+                contributor.linesDeleted = linesDeleted
+                contributor.commits = commits
+                try managedContext.save()
+            }
                 
-                // check for duplicate
-                
-                let fetchRequest = NSFetchRequest(entityName: "Contributors")
-                fetchRequest.predicate = NSPredicate(format: "contributorsName == %@ and repository == %@ ", contributorName, (repositories?.first)!)
-                let contributors =
-                    try managedContext.executeFetchRequest(fetchRequest) as? [Contributors]
-                if let contributor = contributors?.first{
-                    contributor.linesAdded = linesAdded
-                    contributor.linesDeleted = linesDeleted
-                    contributor.commits = commits
-                    try managedContext.save()
-                }
-                
-            }catch let error as NSError {
+        }catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
         }        
     }
     
 // MARK: Favourite Handling
-//------------------- Change Favourite Field in Database ---------------------------------
     
+//------------------------------------------------------------------------------
+// DESCRIPTION: function to change the favourite State for the given repository
+//              in Database
+//------------------------------------------------------------------------------
     func changeIsFavouriteState(repositoryName : String){
+        
         let managedContext = appDelegate.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: "Repositories")
-        fetchRequest.predicate = NSPredicate(format: "repositoryName = %@ and users CONTAINS %@",repositoryName, self.currentUser())
-        
-        
         do {
-            let repository =
-                try appDelegate.managedObjectContext.executeFetchRequest(fetchRequest) as? [Repositories]
-            if let currentRepository = repository?.first{
-                
+        // fetch repository fo the given name
+            let repository = self.fetchRepositoryByName(repositoryName)
+            if let currentRepository = repository.first{
+        // change the is Favoutrite stae depeneding on previous state
                 let boolvalue = "\(currentRepository.isFavourite!)"
                 if boolvalue == "false" {
                     currentRepository.isFavourite = "true"
@@ -277,11 +344,14 @@ public class DatabaseHandler {
     }
     
 // MARK: User data Functions
-//---------------- Remove User as Current User ------------------------
+//------------------------------------------------------------------------------
+// DESCRIPTION: Function to make the current User inactive
+//------------------------------------------------------------------------------
     func changeCurrentUser(){
         
         let managedContext = appDelegate.managedObjectContext
         let managedObject = DatabaseHandler().currentUser()
+        
         managedObject.setValue("no", forKey: "current")
         do{
             try managedContext.save()
@@ -292,9 +362,12 @@ public class DatabaseHandler {
 
     }
     
-//---------- Add User if not present otherwise update to current --------------
+//------------------------------------------------------------------------------
+// DESCRIPTION: Function to add New User to database
+//------------------------------------------------------------------------------
     func addUser(username :String){
         
+        // search for user for existing username
         let managedContext = appDelegate.managedObjectContext
         let fetchRequest = NSFetchRequest(entityName: "Users")
         fetchRequest.predicate = NSPredicate(format: "username = %@", username)
@@ -302,6 +375,7 @@ public class DatabaseHandler {
         do {
             let users =
                 try managedContext.executeFetchRequest(fetchRequest) as? [Users]
+        // If user doesnt exist create a user
             guard let user = users?.first where users?.count > 0 else{
                 // Add new user if user doesnt exist
                 let entity =  NSEntityDescription.entityForName("Users",inManagedObjectContext:managedContext)
@@ -311,7 +385,7 @@ public class DatabaseHandler {
                 try managedContext.save()
                 return
             }
-            // if user exist set it to current User
+        // if user exist set it to current User
             user.current = "yes"
             try managedContext.save()
             
@@ -321,7 +395,10 @@ public class DatabaseHandler {
     
     }
     
-//-------------------- Give the object of current User -----------------------------
+    
+//------------------------------------------------------------------------------
+// DESCRIPTION: Function to return the current active User
+//------------------------------------------------------------------------------
     func currentUser()-> NSManagedObject{
         
         let managedContext = appDelegate.managedObjectContext

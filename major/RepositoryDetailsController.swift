@@ -13,69 +13,94 @@ import AlamofireImage
 import KeychainAccess
 import SwiftyJSON
 
+//------------------------------------------------------------------------------
+// DESCRIPTION: This is the Controller for the screen of repository Details for
+//              particular repository.
+//------------------------------------------------------------------------------
 class RepositoryDetailsController: UITableViewController {
     
+// MARK: Global Variables
+//------------------------- Global Variables -----------------------------
     var repositoryName : String = ""
     var username: String = ""
     var contributors = [NSManagedObject]()
+
+// MARK: View Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // fetch contributors
         dataHandler().getContributors(repositoryName){
             Result-> Void in
             if Result == true{
-                self.displayTable()
+                // fetch extra repository details
+                dataHandler().getPRCount(self.repositoryName, username: self.username){
+                    result in
+                    self.displayTable()
+                }
+                dataHandler().getIssueCount(self.repositoryName, username: self.username){
+                    result in
+                    self.displayTable()
+                }
             }
         }
-        dataHandler().getPRCount(repositoryName, username: username){
-            result in
-            
-        }
-        dataHandler().getIssueCount(repositoryName, username: username){
-            result in
-            
-        }
-        displayTable()
-        
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    // fetch contributor data from database and display
     func displayTable(){
         self.contributors = DatabaseHandler().fetchAllContributors(repositoryName)
         self.tableView.reloadData()
     }
     
+    // segue for table rows
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if  segue.identifier == "contributorDetailSegue"
         {
             let destination = segue.destinationViewController as! ContributorDetailController,
             repositoryIndex = tableView.indexPathForSelectedRow?.row
+            
+            // pass the contributor name of the cell clicked
             destination.contributorName = (self.contributors[repositoryIndex!-4].valueForKey("contributorsName") as? String)!
             destination.repositoryName = repositoryName
         }
     }
     
     
+    // first 4 cells are fixed and others are based on numbers of contributors
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4 + contributors.count
     }
-    
+
+// Table view function to give height to cell based on its index
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
+        // repository detail cell has to be bigger than else
         if indexPath.row == 0{
-            return 125.0;//Choose your custom row height
+            return 125.0;
         }
+        // heading cell for contributors has to be small
         else if indexPath.row == 3{
             return 60
         }
+    
         else {
             return 100
         }
     }
-    
+
+// Table view function to fill data into cells and provide the cell for rendering
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        // first cell has to a repository Description cell with image, name
+        // and description
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier("repositoryDescriptionCell") as!
             repositoryDescriptionCell
+
             cell.descriptionLabel.text = DatabaseHandler().fetchRepositoryByName(repositoryName).first!.valueForKey("descriptionRepo") as? String
             cell.repositoryNameLabel.text = DatabaseHandler().fetchRepositoryByName(repositoryName).first!.valueForKey("repositoryName") as? String
             
@@ -86,6 +111,7 @@ class RepositoryDetailsController: UITableViewController {
             
             return cell
         }
+        // Issue Card with issue counts and icons for the same
         else if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCellWithIdentifier("IssuesCell") as!
             IssuesCell
@@ -99,6 +125,7 @@ class RepositoryDetailsController: UITableViewController {
             
             return cell
         }
+        // PR card with pr counts and icons for the same
         else if indexPath.row == 2 {
             let cell = tableView.dequeueReusableCellWithIdentifier("PRcell") as! PRcell
             setBoundary(cell.PRview)
@@ -110,12 +137,14 @@ class RepositoryDetailsController: UITableViewController {
             cell.openPRImage.tintColor = UIColor.purpleColor()
             return cell
         }
+        // a header for contributions
         else if indexPath.row == 3{
             let cell = tableView.dequeueReusableCellWithIdentifier("HeaderCell") as! HeaderCell
             cell.cellBoundary.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.2)
             setBoundary(cell.cellBoundary)
             return cell
         }
+        // contributor cells with basic contributor data
         else{
             let cell = tableView.dequeueReusableCellWithIdentifier("contributorPrototype") as! contributorCells
             
@@ -133,22 +162,25 @@ class RepositoryDetailsController: UITableViewController {
         }
     }
     
+// MARK: UI enhancement functions
+    
+    // To put given named image in the given image view
     func imageSetUp(imageview : UIImageView, name: String){
         imageview.contentMode = UIViewContentMode.ScaleAspectFit
         imageview.image = UIImage(named: name)
+        // make the image editable
         imageview.image = imageview.image?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
     }
     
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
+    // To make the boundary for the cell to make it look like a card
     func setBoundary(cellview : UIView){
         cellview.layer.shadowColor = UIColor.blackColor().CGColor
         cellview.layer.shadowOpacity = 0.5
         cellview.layer.shadowOffset = CGSizeZero
         cellview.layer.shadowRadius = 1
     }
+    
+    
+    
     
 }

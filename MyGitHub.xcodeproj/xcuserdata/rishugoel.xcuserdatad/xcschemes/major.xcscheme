@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3EB076601D5EFA7600FF95CC"
-               BuildableName = "major.app"
-               BlueprintName = "major"
-               ReferencedContainer = "container:major.xcodeproj">
+               BuildableName = "MyGitHub.temp_caseinsensitive_rename.temp_caseinsensitive_rename.app"
+               BlueprintName = "MyGitHub"
+               ReferencedContainer = "container:MyGitHub.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,19 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3ECC03D91D638D560041B141"
-               BuildableName = "majorTests.xctest"
-               BlueprintName = "majorTests"
-               ReferencedContainer = "container:major.xcodeproj">
+               BuildableName = "MyGitHub.xctest"
+               BlueprintName = "MyGitHubTests"
+               ReferencedContainer = "container:MyGitHub.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3E1355861D70845800D898A5"
+               BuildableName = "MyGitHub.temp_caseinsensitive_rename.temp_caseinsensitive_rename.xctest"
+               BlueprintName = "MyGitHub.UITests"
+               ReferencedContainer = "container:MyGitHub.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +53,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3EB076601D5EFA7600FF95CC"
-            BuildableName = "major.app"
-            BlueprintName = "major"
-            ReferencedContainer = "container:major.xcodeproj">
+            BuildableName = "MyGitHub.temp_caseinsensitive_rename.temp_caseinsensitive_rename.app"
+            BlueprintName = "MyGitHub"
+            ReferencedContainer = "container:MyGitHub.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -66,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3EB076601D5EFA7600FF95CC"
-            BuildableName = "major.app"
-            BlueprintName = "major"
-            ReferencedContainer = "container:major.xcodeproj">
+            BuildableName = "MyGitHub.temp_caseinsensitive_rename.temp_caseinsensitive_rename.app"
+            BlueprintName = "MyGitHub"
+            ReferencedContainer = "container:MyGitHub.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -85,9 +95,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3EB076601D5EFA7600FF95CC"
-            BuildableName = "major.app"
-            BlueprintName = "major"
-            ReferencedContainer = "container:major.xcodeproj">
+            BuildableName = "MyGitHub.temp_caseinsensitive_rename.temp_caseinsensitive_rename.app"
+            BlueprintName = "MyGitHub"
+            ReferencedContainer = "container:MyGitHub.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
@@ -96,6 +106,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "myGitHub"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
