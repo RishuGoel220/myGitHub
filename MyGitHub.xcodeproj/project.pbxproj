@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3E13558A1D70845800D898A5 /* MyGitHub_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1355891D70845800D898A5 /* MyGitHub_UITests.swift */; };
-		3E146ECE1D72F5CA00292B19 /* APIkeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E146ECD1D72F5CA00292B19 /* APIkeys.plist */; };
+		3E146ED21D72F88E00292B19 /* APIkeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E146ED11D72F88E00292B19 /* APIkeys.plist */; };
 		3E3421441D64422A00DD5B81 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3421431D64422A00DD5B81 /* Reachability.swift */; };
 		3E5823E21D6CF1CB00C70169 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E5823E01D6CF1CB00C70169 /* Main.storyboard */; };
 		3E59FC3E1D6DAE0200AFFDBB /* KeychainHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FC3D1D6DAE0200AFFDBB /* KeychainHandler.swift */; };
@@ -63,7 +63,7 @@
 		3E1355871D70845800D898A5 /* MyGitHub.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyGitHub.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E1355891D70845800D898A5 /* MyGitHub_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGitHub_UITests.swift; sourceTree = "<group>"; };
 		3E13558B1D70845800D898A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3E146ECD1D72F5CA00292B19 /* APIkeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = APIkeys.plist; sourceTree = "<group>"; };
+		3E146ED11D72F88E00292B19 /* APIkeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = APIkeys.plist; sourceTree = "<group>"; };
 		3E3421431D64422A00DD5B81 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		3E5823E11D6CF1CB00C70169 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3E59FC3D1D6DAE0200AFFDBB /* KeychainHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainHandler.swift; sourceTree = "<group>"; };
@@ -163,7 +163,7 @@
 		3EB076581D5EFA7600FF95CC = {
 			isa = PBXGroup;
 			children = (
-				3E146ECD1D72F5CA00292B19 /* APIkeys.plist */,
+				3E146ED11D72F88E00292B19 /* APIkeys.plist */,
 				3EB076631D5EFA7700FF95CC /* MyGitHub */,
 				3ECC03DB1D638D560041B141 /* myGitHubTests */,
 				3E1355881D70845800D898A5 /* MyGitHub.UITests */,
@@ -350,7 +350,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3EB076721D5EFA7700FF95CC /* LaunchScreen.storyboard in Resources */,
-				3E146ECE1D72F5CA00292B19 /* APIkeys.plist in Resources */,
+				3E146ED21D72F88E00292B19 /* APIkeys.plist in Resources */,
 				3E5823E21D6CF1CB00C70169 /* Main.storyboard in Resources */,
 				3EB0766F1D5EFA7700FF95CC /* Assets.xcassets in Resources */,
 			);
