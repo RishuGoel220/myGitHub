@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3EB076601D5EFA7600FF95CC"
-               BuildableName = "MyGitHub.temp_caseinsensitive_rename.temp_caseinsensitive_rename.app"
+               BuildableName = "MyGitHub.app"
                BlueprintName = "MyGitHub"
                ReferencedContainer = "container:MyGitHub.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3E1355861D70845800D898A5"
-               BuildableName = "MyGitHub.temp_caseinsensitive_rename.temp_caseinsensitive_rename.xctest"
+               BuildableName = "MyGitHub.xctest"
                BlueprintName = "MyGitHub.UITests"
                ReferencedContainer = "container:MyGitHub.xcodeproj">
             </BuildableReference>
@@ -53,7 +53,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3EB076601D5EFA7600FF95CC"
-            BuildableName = "MyGitHub.temp_caseinsensitive_rename.temp_caseinsensitive_rename.app"
+            BuildableName = "MyGitHub.app"
             BlueprintName = "MyGitHub"
             ReferencedContainer = "container:MyGitHub.xcodeproj">
          </BuildableReference>
@@ -76,7 +76,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3EB076601D5EFA7600FF95CC"
-            BuildableName = "MyGitHub.temp_caseinsensitive_rename.temp_caseinsensitive_rename.app"
+            BuildableName = "MyGitHub.app"
             BlueprintName = "MyGitHub"
             ReferencedContainer = "container:MyGitHub.xcodeproj">
          </BuildableReference>
@@ -95,7 +95,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3EB076601D5EFA7600FF95CC"
-            BuildableName = "MyGitHub.temp_caseinsensitive_rename.temp_caseinsensitive_rename.app"
+            BuildableName = "MyGitHub.app"
             BlueprintName = "MyGitHub"
             ReferencedContainer = "container:MyGitHub.xcodeproj">
          </BuildableReference>

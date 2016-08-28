@@ -301,12 +301,12 @@ public class DatabaseHandler {
             let contributors = self.fetchContributorByName(contributorName,
                                                                repositoryName: repositoryName)
         // add extra details for the user and save
-            if let contributor = contributors.first{
-                contributor.linesAdded = linesAdded
-                contributor.linesDeleted = linesDeleted
-                contributor.commits = commits
-                try managedContext.save()
-            }
+            let contributor = contributors.first
+            contributor!.linesAdded = linesAdded
+            contributor!.linesDeleted = linesDeleted
+            contributor!.commits = commits
+            try managedContext.save()
+            
                 
         }catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")

@@ -150,11 +150,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493986632.823357"
+            timestampString = "494070808.248252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
             landmarkName = "login(_:password:otp:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -182,11 +182,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493986632.823357"
+            timestampString = "494070808.248252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
             landmarkName = "APIcaller"
             landmarkType = "3">
          </BreakpointContent>
@@ -198,11 +198,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493986632.823357"
+            timestampString = "494070808.248252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "194"
-            endingLineNumber = "194"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
             landmarkName = "APIcaller"
             landmarkType = "3">
          </BreakpointContent>
@@ -214,11 +214,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493986632.823357"
+            timestampString = "494070808.248252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
+            startingLineNumber = "198"
+            endingLineNumber = "198"
             landmarkName = "APIcaller"
             landmarkType = "3">
             <Locations>
@@ -262,11 +262,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493986632.823357"
+            timestampString = "494070808.248252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
             landmarkName = "login(_:password:otp:completion:)"
             landmarkType = "5">
             <Locations>
@@ -326,11 +326,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493986632.823357"
+            timestampString = "494070808.248252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "login(_:password:otp:completion:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1202,7 +1202,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/DatabaseHandler.swift"
@@ -1254,7 +1254,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/APIcaller.swift"
-            timestampString = "493986632.823357"
+            timestampString = "494070808.248252"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "149"
@@ -1302,7 +1302,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "major/AppDelegate.swift"
-            timestampString = "493887865.653033"
+            timestampString = "494068290.819386"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "22"
@@ -1324,6 +1324,214 @@
             startingLineNumber = "21"
             endingLineNumber = "21"
             landmarkName = "logoutAction(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "major/DatabaseHandler.swift"
+            timestampString = "494065613.327211"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "306"
+            endingLineNumber = "306"
+            landmarkName = "addContributorStats(_:contributorName:linesAdded:linesDeleted:commits:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "major/ContributorDetailController.swift"
+            timestampString = "494065676.016154"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "displaydata()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "major/ContributorDetailController.swift"
+            timestampString = "494065677.334315"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
+            landmarkName = "displaydata()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "major/DatabaseHandler.swift"
+            timestampString = "494065843.149784"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "301"
+            endingLineNumber = "301"
+            landmarkName = "addContributorStats(_:contributorName:linesAdded:linesDeleted:commits:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "major/DatabaseHandler.swift"
+            timestampString = "494066039.136744"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "308"
+            endingLineNumber = "308"
+            landmarkName = "addContributorStats(_:contributorName:linesAdded:linesDeleted:commits:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "major/DatabaseHandler.swift"
+            timestampString = "494066048.643927"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "309"
+            endingLineNumber = "309"
+            landmarkName = "addContributorStats(_:contributorName:linesAdded:linesDeleted:commits:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MyGitHub.DatabaseHandler.addContributorStats (Swift.String, contributorName : Swift.String, linesAdded : Swift.Int, linesDeleted : Swift.Int, commits : Swift.Int) -&gt; ()"
+                  moduleName = "MyGitHub"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rishugoel/Desktop/IOSdev/major/major/DatabaseHandler.swift"
+                  timestampString = "494073317.335784"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "311"
+                  endingLineNumber = "311"
+                  offsetFromSymbolStart = "1575">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MyGitHub.DatabaseHandler.addContributorStats (Swift.String, contributorName : Swift.String, linesAdded : Swift.Int, linesDeleted : Swift.Int, commits : Swift.Int) -&gt; ()"
+                  moduleName = "MyGitHub"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rishugoel/Desktop/IOSdev/major/major/DatabaseHandler.swift"
+                  timestampString = "494073317.335883"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "311"
+                  endingLineNumber = "311"
+                  offsetFromSymbolStart = "2379">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "major/DatabaseHandler.swift"
+            timestampString = "494066131.062994"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "304"
+            endingLineNumber = "304"
+            landmarkName = "addContributorStats(_:contributorName:linesAdded:linesDeleted:commits:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "major/DatabaseHandler.swift"
+            timestampString = "494066225.20143"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "307"
+            endingLineNumber = "307"
+            landmarkName = "addContributorStats(_:contributorName:linesAdded:linesDeleted:commits:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "major/dataHandler.swift"
+            timestampString = "494068857.069368"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
+            landmarkName = "getPRCount(_:username:completion:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "major/dataHandler.swift"
+            timestampString = "494068861.209053"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
+            landmarkName = "getIssueCount(_:username:completion:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "major/APIcaller.swift"
+            timestampString = "494070851.221943"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
+            landmarkName = "login(_:password:otp:completion:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

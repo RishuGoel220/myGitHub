@@ -2,11 +2,11 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15D21" minimumToolsVersion="Automatic">
     <entity name="Contributors" representedClassName=".Contributors" syncable="YES">
         <attribute name="avatarUrl" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="commits" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="commits" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="contributions" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contributorsName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="linesAdded" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="linesDeleted" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="linesAdded" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="linesDeleted" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="repository" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Repositories" inverseName="contributors" inverseEntity="Repositories" syncable="YES"/>
     </entity>
     <entity name="Repositories" representedClassName=".Repositories" syncable="YES">

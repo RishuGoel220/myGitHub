@@ -20,8 +20,7 @@ class APIcaller{
     
     
     let API_URL = "https://api.github.com/"
-    let CLIENT_SECRET = "c0ea6710c59e4c4a26d7b875f34eab2c66f27e52"
-    let CLIENT_ID = "85a3f37ae5540cdc80f2"
+    
     
     
 // MARK: API functions for Contributor Data
@@ -142,8 +141,8 @@ class APIcaller{
         let parameters = [
             "scopes"    : ["public_repo", "repo", "read:org", "repo:status"],
             "note" : "token for repos",
-            "client_id" : CLIENT_ID,
-            "client_secret" : CLIENT_SECRET
+            "client_id" : UtilityHandler().valueForAPI(named: "CLIENT_ID"),
+            "client_secret" : UtilityHandler().valueForAPI(named: "CLIENT_SECRET")
         ]
         
         Alamofire.request(.POST, API_URL+"authorizations",

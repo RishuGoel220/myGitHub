@@ -16,7 +16,12 @@ class UtilityHandler{
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel , handler: nil))
         return alert
-        
+    }
+    func valueForAPI(named keyname:String) -> String {
+        let filePath = NSBundle.mainBundle().pathForResource("APIkeys", ofType: "plist")
+        let plist = NSDictionary(contentsOfFile:filePath!)
+        let value = plist?.objectForKey(keyname) as! String
+        return value
     }
 
 }

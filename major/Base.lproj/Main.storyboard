@@ -10,7 +10,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="loginController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ViewController" customModule="MyGitHub_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ViewController" customModule="MyGitHub" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -88,14 +88,14 @@
         <!--Repositories-->
         <scene sceneID="XBV-3d-2vM">
             <objects>
-                <tableViewController storyboardIdentifier="repository" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6Tq-tf-aew" customClass="RepositoryViewController" customModule="MyGitHub_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="repository" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6Tq-tf-aew" customClass="RepositoryViewController" customModule="MyGitHub" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="81" sectionHeaderHeight="28" sectionFooterHeight="28" id="h0c-0Y-YuN">
                         <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="sectionIndexBackgroundColor" white="1" alpha="0.072198275862068964" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" alpha="0.0" contentMode="scaleAspectFit" semanticContentAttribute="playback" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" selectionStyle="none" indentationLevel="6" indentationWidth="12" reuseIdentifier="cellPrototype" rowHeight="81" id="WK9-jB-9CL" customClass="repositoryCells" customModule="MyGitHub_temp_caseinsensitive_rename" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" alpha="0.0" contentMode="scaleAspectFit" semanticContentAttribute="playback" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" selectionStyle="none" indentationLevel="6" indentationWidth="12" reuseIdentifier="cellPrototype" rowHeight="81" id="WK9-jB-9CL" customClass="repositoryCells" customModule="MyGitHub" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="600" height="81"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="WK9-jB-9CL" id="fuX-BG-az0">
@@ -219,13 +219,13 @@
         <!--My Favourites-->
         <scene sceneID="1ib-tr-oPY">
             <objects>
-                <tableViewController id="VYb-bQ-Uau" userLabel="My Favourites" customClass="favouritesViewController" customModule="MyGitHub_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="VYb-bQ-Uau" userLabel="My Favourites" customClass="favouritesViewController" customModule="MyGitHub" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="81" sectionHeaderHeight="28" sectionFooterHeight="28" id="mzr-3b-MNY">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" alpha="0.0" contentMode="scaleAspectFit" semanticContentAttribute="playback" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" selectionStyle="none" indentationLevel="6" indentationWidth="12" reuseIdentifier="cellPrototype" rowHeight="82" id="UWf-QN-Phw" customClass="repositoryCells" customModule="MyGitHub_temp_caseinsensitive_rename" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" alpha="0.0" contentMode="scaleAspectFit" semanticContentAttribute="playback" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" selectionStyle="none" indentationLevel="6" indentationWidth="12" reuseIdentifier="cellPrototype" rowHeight="82" id="UWf-QN-Phw" customClass="repositoryCells" customModule="MyGitHub" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="82"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" tableViewCell="UWf-QN-Phw" id="MYf-4E-5IF">
@@ -346,13 +346,13 @@
         <!--Repository Detail-->
         <scene sceneID="aI1-ao-nPq">
             <objects>
-                <tableViewController hidesBottomBarWhenPushed="YES" id="HOD-Nl-sgE" customClass="RepositoryDetailsController" customModule="MyGitHub_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="HOD-Nl-sgE" customClass="RepositoryDetailsController" customModule="MyGitHub" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" id="wxQ-yW-2Wq">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell autoresizesSubviews="NO" contentMode="scaleAspectFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="repositoryDescriptionCell" rowHeight="99" id="A4q-IH-sBD" customClass="repositoryDescriptionCell" customModule="MyGitHub_temp_caseinsensitive_rename" customModuleProvider="target">
+                            <tableViewCell autoresizesSubviews="NO" contentMode="scaleAspectFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="repositoryDescriptionCell" rowHeight="99" id="A4q-IH-sBD" customClass="repositoryDescriptionCell" customModule="MyGitHub" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="99"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="A4q-IH-sBD" id="rem-bp-fI0">
@@ -426,7 +426,7 @@
                                     <outlet property="repositoryNameLabel" destination="B7e-2m-U1G" id="Y6y-IV-2fs"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="IssuesCell" rowHeight="92" id="VZT-N2-n0C" customClass="IssuesCell" customModule="MyGitHub_temp_caseinsensitive_rename" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="IssuesCell" rowHeight="92" id="VZT-N2-n0C" customClass="IssuesCell" customModule="MyGitHub" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="191" width="600" height="92"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VZT-N2-n0C" id="P4G-SC-2QR">
@@ -545,7 +545,7 @@
                                     <outlet property="openIssueImage" destination="6hD-q9-9o1" id="Ufd-S6-zlo"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PRcell" rowHeight="57" id="fx1-FV-dRq" customClass="PRcell" customModule="MyGitHub_temp_caseinsensitive_rename" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PRcell" rowHeight="57" id="fx1-FV-dRq" customClass="PRcell" customModule="MyGitHub" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="283" width="600" height="57"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fx1-FV-dRq" id="Naw-7A-esd">
@@ -664,7 +664,7 @@
                                     <outlet property="openPRImage" destination="EBV-Wo-vaB" id="oxZ-Iu-OOo"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="contributorPrototype" rowHeight="126" id="cVV-ye-jVS" customClass="contributorCells" customModule="MyGitHub_temp_caseinsensitive_rename" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="contributorPrototype" rowHeight="126" id="cVV-ye-jVS" customClass="contributorCells" customModule="MyGitHub" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="340" width="600" height="126"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cVV-ye-jVS" id="Vgu-iF-Zai">
@@ -760,7 +760,7 @@
                                     <segue destination="Anw-SP-pa6" kind="show" identifier="contributorDetailSegue" id="2KW-GM-SDy"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HeaderCell" rowHeight="58" id="gq8-uy-ctb" customClass="HeaderCell" customModule="MyGitHub_temp_caseinsensitive_rename" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="HeaderCell" rowHeight="58" id="gq8-uy-ctb" customClass="HeaderCell" customModule="MyGitHub" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="466" width="600" height="58"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gq8-uy-ctb" id="S3D-De-Lsk">
@@ -824,7 +824,7 @@
         <!--Contributor Details-->
         <scene sceneID="8Jv-WB-yzC">
             <objects>
-                <viewController id="Anw-SP-pa6" customClass="ContributorDetailController" customModule="MyGitHub_temp_caseinsensitive_rename" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Anw-SP-pa6" customClass="ContributorDetailController" customModule="MyGitHub" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fxO-68-8U9"/>
                         <viewControllerLayoutGuide type="bottom" id="4O7-8z-yNl"/>
@@ -908,7 +908,7 @@
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Tbp-m3-LKw">
                                 <rect key="frame" x="290" y="290" width="20" height="20"/>
                             </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cBl-Sj-isE">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cBl-Sj-isE">
                                 <rect key="frame" x="20" y="318" width="560" height="50"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Contributor Name">

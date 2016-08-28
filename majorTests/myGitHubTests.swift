@@ -7,11 +7,12 @@
 //
 
 import XCTest
-@ testable import major
+@ testable import  major
 class majorTests: XCTestCase {
-    let vc = ViewController()
+    
     override func setUp() {
         super.setUp()
+        let vc = ViewController()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
@@ -21,9 +22,9 @@ class majorTests: XCTestCase {
     }
     
     func testAPILogin() {
-        APIcaller().login(<#T##String#>, password: <#T##String#>, otp: <#T##String#>){
+        APIcaller().login("rishugoel", password: "rishu", otp: ""){
             response in
-            
+            XCTAssert(response.result.isSuccess is Bool)
         }
         
     }
